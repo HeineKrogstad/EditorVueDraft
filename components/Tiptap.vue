@@ -3,53 +3,43 @@
         <div>
         <div class="flex justify-center space-x-2 p-1">
             <button class="btn" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-            Bold
+                <svg-icon type="mdi" :path="mdiFormatBold"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-            Italic
+                <svg-icon type="mdi" :path="mdiFormatItalic"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleUnderline().run()" :class="{ 'is-active': editor.isActive('underline') }">
-            Underline
+                <svg-icon type="mdi" :path="mdiFormatUnderline"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-            Strike
+                <svg-icon type="mdi" :path="mdiFormatStrikethroughVariant"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
-            Blockquote
+                <svg-icon type="mdi" :path="mdiFormatQuoteClose"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleCodeBlock().run()" :class="{ 'is-active': editor.isActive('codeBlock') }">
-            Code
+                <svg-icon type="mdi" :path="mdiXml"></svg-icon>
             </button>
-            
             <button class="btn" @click="editor.chain().focus().toggleHeading({ level: 1 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }">
-            H1
+                <svg-icon type="mdi" :path="mdiFormatHeader1"></svg-icon>
             </button>
             <button class="btn" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
-            H2
+                <svg-icon type="mdi" :path="mdiFormatHeader2"></svg-icon>
             </button>
             <button class="btn" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
             Paragraph
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
-            Subscript
+                <svg-icon type="mdi" :path="mdiFormatSubscript"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
-            Superscript
+                <svg-icon type="mdi" :path="mdiFormatSuperscript"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleBulletList().run()" :class="{ 'is-active': editor.isActive('bulletList') }">
-            Bullet list
+                <svg-icon type="mdi" :path="mdiFormatListBulleted"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
-            Ordered list
+                <svg-icon type="mdi" :path="mdiFormatListNumbered"></svg-icon>
             </button>
 
             <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
@@ -64,6 +54,7 @@
             <button class="btn" @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }">
             Justify
             </button>
+
             <button class="btn-export" @click="exportToJson">Получить JSON</button>
         </div>
         </div>
@@ -72,6 +63,21 @@
     </template>
       
     <script>
+    import SvgIcon from '@jamescoyle/vue-icon'
+    import { 
+        mdiFormatBold,
+        mdiFormatItalic, 
+        mdiFormatUnderline, 
+        mdiFormatStrikethroughVariant, 
+        mdiXml, 
+        mdiFormatHeader1, 
+        mdiFormatHeader2, 
+        mdiFormatSubscript,
+        mdiFormatSuperscript, 
+        mdiFormatListBulleted, 
+        mdiFormatListNumbered,
+        mdiFormatQuoteClose 
+    } from '@mdi/js';
     import TextAlign from '@tiptap/extension-text-align'
     import Underline from '@tiptap/extension-underline'
     import Superscript from '@tiptap/extension-superscript'
@@ -82,11 +88,24 @@
     export default {
         components: {
             EditorContent,
+            SvgIcon,
         },
     
         data() {
             return {
             editor: null,
+            mdiFormatBold: mdiFormatBold,
+            mdiFormatItalic: mdiFormatItalic,
+            mdiFormatUnderline: mdiFormatUnderline,
+            mdiFormatStrikethroughVariant: mdiFormatStrikethroughVariant,
+            mdiXml: mdiXml,
+            mdiFormatHeader1: mdiFormatHeader1,
+            mdiFormatHeader2: mdiFormatHeader2,
+            mdiFormatSubscript: mdiFormatSubscript,
+            mdiFormatSuperscript: mdiFormatSuperscript,
+            mdiFormatListNumbered: mdiFormatListNumbered,
+            mdiFormatListBulleted: mdiFormatListBulleted,
+            mdiFormatQuoteClose: mdiFormatQuoteClose,
             }
         },
     
@@ -124,11 +143,11 @@
     
     <style>
     .btn {
-        @apply bg-zinc-950 hover:bg-zinc-800 text-white font-mono py-1 px-2 rounded-lg transition-colors duration-300;
+        @apply  hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
     }
     
     .btn.is-active {
-        @apply bg-slate-500;
+        @apply bg-violet-800 text-white;
     }
     
     .tiptap {
@@ -156,4 +175,5 @@
     .btn-export {
         @apply border border-gray-300 rounded-lg p-1 hover:bg-gray-200 transition-colors duration-300;
     }
+
     </style>
