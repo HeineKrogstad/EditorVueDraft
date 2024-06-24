@@ -149,6 +149,8 @@
     code { @apply bg-transparent text-inherit text-xs p-0 }
 
     ul, ol { @apply px-4 my-5 mr-4 ml-1 }
+    ul { @apply list-disc }
+    ol { @apply list-decimal }
     li p { @apply my-1 }
     
     .btn-export {
