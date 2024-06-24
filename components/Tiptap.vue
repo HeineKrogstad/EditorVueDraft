@@ -1,6 +1,6 @@
 <template>
     <div v-if="editor">
-        <div>
+        
         <div class="flex justify-center space-x-2 p-1">
             <button class="btn" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                 <svg-icon type="mdi" :path="mdiFormatBold"></svg-icon>
@@ -38,29 +38,24 @@
             <button class="btn" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
                 <svg-icon type="mdi" :path="mdiFormatListNumbered"></svg-icon>
             </button>
-
             <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-            Left
+                <svg-icon type="mdi" :path="mdiFormatAlignLeft"></svg-icon>
             </button>
             <button class="btn" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
-            Center
+                <svg-icon type="mdi" :path="mdiFormatAlignCenter"></svg-icon>
             </button>
             <button class="btn" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
-            Right
+                <svg-icon type="mdi" :path="mdiFormatAlignRight"></svg-icon>
             </button>
-            <button class="btn" @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }">
-            Justify
-            </button>
-
-            <button class="btn-export" @click="exportToJson">Получить JSON</button>
-        </div>
         </div>
         <editor-content :editor="editor"/>
     </div>
     </template>
       
     <script>
-    import SvgIcon from '@jamescoyle/vue-icon'
+    import SvgIcon from '@jamescoyle/vue-icon';
+    import SpeedDial from 'primevue/speeddial';
+
     import { 
         mdiFormatBold,
         mdiFormatItalic, 
@@ -75,7 +70,10 @@
         mdiFormatListNumbered,
         mdiFormatQuoteClose,
         mdiFormatIndentDecrease,
-        mdiFormatIndentIncrease 
+        mdiFormatIndentIncrease,
+        mdiFormatAlignLeft,
+        mdiFormatAlignCenter,
+        mdiFormatAlignRight,
     } from '@mdi/js';
     import TextAlign from '@tiptap/extension-text-align'
     import Underline from '@tiptap/extension-underline'
@@ -88,6 +86,7 @@
         components: {
             EditorContent,
             SvgIcon,
+            SpeedDial,
         },
     
         data() {
@@ -107,6 +106,9 @@
             mdiFormatQuoteClose: mdiFormatQuoteClose,
             mdiFormatIndentIncrease: mdiFormatIndentIncrease,
             mdiFormatIndentDecrease: mdiFormatIndentDecrease,
+            mdiFormatAlignLeft: mdiFormatAlignLeft,
+            mdiFormatAlignCenter: mdiFormatAlignCenter,
+            mdiFormatAlignRight: mdiFormatAlignRight,
             }
         },
     
@@ -127,17 +129,6 @@
         
         beforeUnmount() {
             this.editor.destroy()
-        },
-    
-        methods: {
-            exportToJson() {
-                const json = this.editor.getJSON();
-                const jsonString = JSON.stringify(json, null, 2);
-                const blob = new Blob([jsonString], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const newWindow = window.open(url);
-                newWindow.onload = () => URL.revokeObjectURL(url);
-            },
         },
     }
     </script>
@@ -176,5 +167,4 @@
     .btn-export {
         @apply border border-gray-300 rounded-lg p-1 hover:bg-gray-200 transition-colors duration-300;
     }
-
     </style>
