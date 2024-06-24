@@ -73,7 +73,9 @@
         mdiFormatSuperscript, 
         mdiFormatListBulleted, 
         mdiFormatListNumbered,
-        mdiFormatQuoteClose 
+        mdiFormatQuoteClose,
+        mdiFormatIndentDecrease,
+        mdiFormatIndentIncrease 
     } from '@mdi/js';
     import TextAlign from '@tiptap/extension-text-align'
     import Underline from '@tiptap/extension-underline'
@@ -103,6 +105,8 @@
             mdiFormatListNumbered: mdiFormatListNumbered,
             mdiFormatListBulleted: mdiFormatListBulleted,
             mdiFormatQuoteClose: mdiFormatQuoteClose,
+            mdiFormatIndentIncrease: mdiFormatIndentIncrease,
+            mdiFormatIndentDecrease: mdiFormatIndentDecrease,
             }
         },
     
