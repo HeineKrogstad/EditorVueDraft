@@ -26,9 +26,6 @@
             <button class="btn" @click="editor.chain().focus().toggleHeading({ level: 2 }).run()" :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }">
                 <svg-icon type="mdi" :path="mdiFormatHeader2"></svg-icon>
             </button>
-            <button class="btn" @click="editor.chain().focus().setParagraph().run()" :class="{ 'is-active': editor.isActive('paragraph') }">
-            Paragraph
-            </button>
             <button class="btn" @click="editor.chain().focus().toggleSubscript().run()" :class="{ 'is-active': editor.isActive('subscript') }">
                 <svg-icon type="mdi" :path="mdiFormatSubscript"></svg-icon>
             </button>
@@ -143,7 +140,7 @@
     
     <style>
     .btn {
-        @apply  hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
+        @apply hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
     }
     
     .btn.is-active {
