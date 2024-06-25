@@ -1,6 +1,5 @@
 <template>
     <div v-if="editor">
-        
         <div class="flex justify-center space-x-2 p-1">
             <button class="btn" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                 <svg-icon type="mdi" :path="mdiFormatBold"></svg-icon>
