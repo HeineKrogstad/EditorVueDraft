@@ -38,6 +38,9 @@
             <button class="btn" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
                 <svg-icon type="mdi" :path="mdiFormatListNumbered"></svg-icon>
             </button>
+            <button class="btn" @click="addImage">
+                <svg-icon type="mdi" :path="mdiPaperclip"></svg-icon>
+            </button>
             <Menu>
             <MenuButton class="btn">
                 <svg-icon type="mdi" :path="mdiFormatAlignJustify"></svg-icon>            
@@ -96,7 +99,9 @@
         mdiFormatAlignCenter,
         mdiFormatAlignRight,
         mdiFormatAlignJustify, 
+        mdiPaperclip,
     } from '@mdi/js';
+    import Image from '@tiptap/extension-image'
     import TextAlign from '@tiptap/extension-text-align'
     import TextStyle from '@tiptap/extension-text-style'
     import FontFamily from '@tiptap/extension-font-family'
@@ -138,6 +143,7 @@
             mdiFormatAlignCenter: mdiFormatAlignCenter,
             mdiFormatAlignRight: mdiFormatAlignRight,
             mdiFormatAlignJustify: mdiFormatAlignJustify,
+            mdiPaperclip: mdiPaperclip,
             };
         },
     
@@ -153,6 +159,7 @@
                 Superscript,
                 TextStyle,
                 FontFamily,
+                Image,
             ],
             content: ``,
             })
@@ -160,6 +167,26 @@
         
         beforeUnmount() {
             this.editor.destroy()
+        },
+
+        methods: {
+            addImage() {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const url = e.target.result;
+                            this.editor.chain().focus().setImage({ src: url }).run();
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                };
+                input.click();
+            },
         },
     }
     </script>
