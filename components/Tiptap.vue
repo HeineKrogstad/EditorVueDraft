@@ -14,6 +14,21 @@
             <button class="btn" @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
                 <svg-icon type="mdi" :path="mdiFormatStrikethroughVariant"></svg-icon>
             </button>
+            <div class="btn relative inline-block"> 
+                <input
+                type="color"
+                ref="colorPicker"
+                @input="updateColor"
+                :value="editor.getAttributes('textStyle').color"
+                class="absolute left-0 mt-2 hidden-color-input"
+                >
+                <svg-icon
+                type="mdi"
+                :path="mdiFormatTextVariantOutline"
+                @click="openColorPicker"
+                style="cursor: pointer;"
+                />
+            </div>
             <button class="btn" @click="editor.chain().focus().toggleBlockquote().run()" :class="{ 'is-active': editor.isActive('blockquote') }">
                 <svg-icon type="mdi" :path="mdiFormatQuoteClose"></svg-icon>
             </button>
@@ -100,6 +115,8 @@
         mdiFormatAlignRight,
         mdiFormatAlignJustify, 
         mdiPaperclip,
+        mdiFormatTextVariantOutline,
+        mdiFormatColorFill,
     } from '@mdi/js';
     import Image from '@tiptap/extension-image'
     import TextAlign from '@tiptap/extension-text-align'
@@ -109,6 +126,7 @@
     import Superscript from '@tiptap/extension-superscript'
     import Subscript from '@tiptap/extension-subscript'
     import StarterKit from '@tiptap/starter-kit'
+    import { Color } from '@tiptap/extension-color'
     import { Editor, EditorContent } from '@tiptap/vue-3'
     import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     
@@ -144,6 +162,8 @@
             mdiFormatAlignRight: mdiFormatAlignRight,
             mdiFormatAlignJustify: mdiFormatAlignJustify,
             mdiPaperclip: mdiPaperclip,
+            mdiFormatTextVariantOutline: mdiFormatTextVariantOutline,
+            mdiFormatColorFill: mdiFormatColorFill,
             };
         },
     
@@ -160,6 +180,7 @@
                 TextStyle,
                 FontFamily,
                 Image,
+                Color,
             ],
             content: ``,
             })
@@ -187,6 +208,15 @@
                 };
                 input.click();
             },
+            
+            openColorPicker() {
+                this.$refs.colorPicker.click();
+            },
+
+            updateColor(event) {
+                const color = event.target.value;
+                this.editor.chain().focus().setColor(color).run();
+            }
         },
     }
     </script>
@@ -221,8 +251,9 @@
     ul { @apply list-disc }
     ol { @apply list-decimal }
     li p { @apply my-1 }
+
+    .hidden-color-input { @apply invisible }
+
+    .hidden-color-input:focus { @apply visible }
     
-    .btn-export {
-        @apply border border-gray-300 rounded-lg p-1 hover:bg-gray-200 transition-colors duration-300;
-    }
     </style>
