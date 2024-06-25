@@ -38,17 +38,40 @@
             <button class="btn" @click="editor.chain().focus().toggleOrderedList().run()" :class="{ 'is-active': editor.isActive('orderedList') }">
                 <svg-icon type="mdi" :path="mdiFormatListNumbered"></svg-icon>
             </button>
-            <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-                <svg-icon type="mdi" :path="mdiFormatAlignLeft"></svg-icon>
+            <Menu>
+            <MenuButton class="btn">
+                <svg-icon type="mdi" :path="mdiFormatAlignJustify"></svg-icon>            
+            </MenuButton>
+                <MenuItems>
+                    <MenuItem v-slot="{ active }">
+                        <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
+                            <svg-icon type="mdi" :path="mdiFormatAlignLeft"></svg-icon>
+                        </button>
+                    </MenuItem>
+                    <MenuItem v-slot="{ active }">
+                        <button class="btn" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
+                            <svg-icon type="mdi" :path="mdiFormatAlignCenter"></svg-icon>
+                        </button>
+                    </MenuItem>
+                    <MenuItem v-slot="{ active }">
+                        <button class="btn" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
+                            <svg-icon type="mdi" :path="mdiFormatAlignRight"></svg-icon>
+                        </button>
+                    </MenuItem>
+                </MenuItems>
+            </Menu>
+            <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
+                Sans Serif
             </button>
-            <button class="btn" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
-                <svg-icon type="mdi" :path="mdiFormatAlignCenter"></svg-icon>
+            <button @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
+                Monospace
             </button>
-            <button class="btn" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
-                <svg-icon type="mdi" :path="mdiFormatAlignRight"></svg-icon>
+            <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
+                Comic Sans
             </button>
         </div>
         <editor-content :editor="editor"/>
+
     </div>
     </template>
       
@@ -72,17 +95,25 @@
         mdiFormatAlignLeft,
         mdiFormatAlignCenter,
         mdiFormatAlignRight,
+        mdiFormatAlignJustify, 
     } from '@mdi/js';
     import TextAlign from '@tiptap/extension-text-align'
+    import TextStyle from '@tiptap/extension-text-style'
+    import FontFamily from '@tiptap/extension-font-family'
     import Underline from '@tiptap/extension-underline'
     import Superscript from '@tiptap/extension-superscript'
     import Subscript from '@tiptap/extension-subscript'
     import StarterKit from '@tiptap/starter-kit'
     import { Editor, EditorContent } from '@tiptap/vue-3'
+    import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
     
     export default {
         components: {
             EditorContent,
+            MenuButton,
+            Menu,
+            MenuItems,
+            MenuItem,
             SvgIcon,
         },
     
@@ -106,6 +137,7 @@
             mdiFormatAlignLeft: mdiFormatAlignLeft,
             mdiFormatAlignCenter: mdiFormatAlignCenter,
             mdiFormatAlignRight: mdiFormatAlignRight,
+            mdiFormatAlignJustify: mdiFormatAlignJustify,
             };
         },
     
@@ -119,6 +151,8 @@
                 Underline,
                 Subscript,
                 Superscript,
+                TextStyle,
+                FontFamily,
             ],
             content: ``,
             })
