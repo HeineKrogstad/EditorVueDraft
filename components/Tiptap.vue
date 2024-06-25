@@ -254,5 +254,4 @@
     .hidden-color-input { @apply invisible }
 
     .hidden-color-input:focus { @apply visible }
-    
     </style>
