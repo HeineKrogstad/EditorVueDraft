@@ -54,8 +54,6 @@
       
     <script>
     import SvgIcon from '@jamescoyle/vue-icon';
-    import SpeedDial from 'primevue/speeddial';
-
     import { 
         mdiFormatBold,
         mdiFormatItalic, 
@@ -86,7 +84,6 @@
         components: {
             EditorContent,
             SvgIcon,
-            SpeedDial,
         },
     
         data() {
@@ -109,7 +106,7 @@
             mdiFormatAlignLeft: mdiFormatAlignLeft,
             mdiFormatAlignCenter: mdiFormatAlignCenter,
             mdiFormatAlignRight: mdiFormatAlignRight,
-            }
+            };
         },
     
         mounted() {
