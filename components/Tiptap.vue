@@ -86,6 +86,7 @@
             <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
                 Comic Sans
             </button>
+            <button class="btn" @click="submitPost">Submit</button>
         </div>
         <editor-content :editor="editor"/>
 
@@ -142,6 +143,7 @@
         data() {
             return {
             editor: null,
+            newPost: '',
             mdiFormatBold: mdiFormatBold,
             mdiFormatItalic: mdiFormatItalic,
             mdiFormatUnderline: mdiFormatUnderline,
@@ -215,12 +217,18 @@
             updateColor(event) {
                 const color = event.target.value;
                 this.editor.chain().focus().setColor(color).run();
-            }
+            },
+
+            submitPost() {
+                const json = this.editor.getJSON();
+                this.$emit('add-post', json)
+                this.newPost = ''
+            },
         },
     }
     </script>
     
-    <style>
+    <style scopped>
     .btn {
         @apply hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
     }
