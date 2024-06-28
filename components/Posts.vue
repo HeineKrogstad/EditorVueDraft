@@ -2,44 +2,34 @@
     <div class="card">
         <Tabs v-model:active="activeTab">
             <TabList>
-                <Tab value="0">Личный</Tab>
-                <Tab value="1">Командный</Tab>
-                <Tab value="2">Публичный</Tab>
+                <Tab v-for="tab in tabs" :key="tab.value" :value="tab.value">{{ tab.title }}</Tab>
             </TabList>
             <TabPanels>
-                <TabPanel value="0">
-                    <p class="m-0">Личный</p>
+                <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" >
+                    <p class="m-0">{{ tab.title }}</p>
                     <ul>
-                        <li v-for="(post, index) in personalStore.posts" :key="index">{{ post }}</li>
+                        <li v-for="(post, index) in tab.posts" :key="index">
+                            <EditorContent :editor="getOrCreateEditor(post)" />
+                        </li>
                     </ul>
-                </TabPanel>
-                <TabPanel value="1">
-                    <p class="m-0">Командный</p>
-                    <ul>
-                        <li v-for="(post, index) in teamStore.posts" :key="index">{{ post }}</li>
-                    </ul>
-                </TabPanel>
-                <TabPanel value="2">
-                    <p class="m-0">Публичный</p>
-                    <ul>
-                        <li v-for="(post, index) in publicStore.posts" :key="index">{{ post }}</li>
-                    </ul>
+                    <button @click="openTiptap(tab.value)">Добавить запись</button>
+                    <Tiptap v-if="showTiptap && activeTab === tab.value" :channel="tab.title" @add-post="addPost" />
                 </TabPanel>
             </TabPanels>
         </Tabs>
-        <button @click="openTiptap">Добавить запись</button>
-        <Tiptap v-if="showTiptap" @add-post="addPost" />
     </div>
 </template>
 
 <script>
-import { mapState } from 'pinia'
+import { mapState } from 'pinia';
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
 import Tiptap from '~/components/Tiptap.vue'
+import { Editor, EditorContent } from '@tiptap/vue-3'
+import StarterKit from '@tiptap/starter-kit'
 import { usePersonalStore } from '~/stores/personal'
 import { useTeamStore } from '~/stores/team'
 import { usePublicStore } from '~/stores/public'
@@ -47,18 +37,26 @@ import { usePublicStore } from '~/stores/public'
 export default {
     components: {
         Tabs,
+        TabList,
+        Tab,
+        TabPanels,
+        TabPanel,
         Tiptap,
+        EditorContent
     },
     data() {
         return {
-            activeTab: 0,
+            activeTab: '0',
             showTiptap: false,
+            editors: new Map(),
+            tabs: [
+                { title: 'Личный', value: '0', posts: [] },
+                { title: 'Командный', value: '1', posts: [] },
+                { title: 'Публичный', value: '2', posts: [] }
+            ]
         }
     },
     computed: {
-        ...mapState(usePersonalStore, ['posts']),
-        ...mapState(useTeamStore, ['posts']),
-        ...mapState(usePublicStore, ['posts']),
         personalStore() {
             return usePersonalStore()
         },
@@ -67,25 +65,50 @@ export default {
         },
         publicStore() {
             return usePublicStore()
+        },
+        activeTabChannel() {
+            return this.tabs.find(tab => tab.value === this.activeTab)?.title;
         }
     },
     methods: {
-        openTiptap() {
-            this.showTiptap = true
+        openTiptap(tabValue) {
+            this.showTiptap = true;
+            this.activeTab = tabValue;
         },
-        addPost(post) {
-            this.showTiptap = false
-            if (this.activeTab === 0) {
-                this.personalStore.addPost(post)
-            } else if (this.activeTab === 1) {
-                this.teamStore.addPost(post)
-            } else if (this.activeTab === 2) {
-                this.publicStore.addPost(post)
+        addPost({ post, channel }) {
+            this.showTiptap = false;
+            if (channel === 'Личный') {
+                this.personalStore.addPost(post);
+                console.log('Personal Store:', this.personalStore.posts);
+            } else if (channel === 'Командный') {
+                this.teamStore.addPost(post);
+            } else if (channel === 'Публичный') {
+                this.publicStore.addPost(post);
             }
-        }
+            this.updateTabs();
+        },
+        updateTabs() {
+            this.tabs[0].posts = this.personalStore.posts;
+            this.tabs[1].posts = this.teamStore.posts;
+            this.tabs[2].posts = this.publicStore.posts;
+        },
+        getOrCreateEditor(content) {
+            if (!this.editors.has(content)) {
+                this.editors.set(content, new Editor({
+                    extensions: [StarterKit],
+                    content: content,
+                    editable: false
+                }));
+            }
+            return this.editors.get(content);
+        },
+    },
+    created() {
+        this.updateTabs();
     }
 }
 </script>
+
 
 <style scoped>
 </style>

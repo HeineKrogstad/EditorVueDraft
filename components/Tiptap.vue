@@ -139,6 +139,13 @@
             MenuItem,
             SvgIcon,
         },
+
+        props: {
+        channel: {
+            type: String,
+            required: true,
+            },
+        },
     
         data() {
             return {
@@ -220,9 +227,8 @@
             },
 
             submitPost() {
-                const json = this.editor.getJSON();
-                this.$emit('add-post', json)
-                this.newPost = ''
+            const json = this.editor.getJSON();
+            this.$emit('add-post', { post: json, channel: this.channel });
             },
         },
     }
