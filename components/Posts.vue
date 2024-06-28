@@ -6,7 +6,6 @@
             </TabList>
             <TabPanels>
                 <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" >
-                    <p class="m-0">{{ tab.title }}</p>
                     <ul>
                         <li v-for="(post, index) in tab.posts" :key="index">
                             <EditorContent :editor="getOrCreateEditor(post)" />
@@ -22,6 +21,7 @@
 
 <script>
 import { mapState } from 'pinia';
+import getEditorConfig from '@/utils/editorConfig';
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
@@ -79,7 +79,6 @@ export default {
             this.showTiptap = false;
             if (channel === 'Личный') {
                 this.personalStore.addPost(post);
-                console.log('Personal Store:', this.personalStore.posts);
             } else if (channel === 'Командный') {
                 this.teamStore.addPost(post);
             } else if (channel === 'Публичный') {
@@ -94,11 +93,7 @@ export default {
         },
         getOrCreateEditor(content) {
             if (!this.editors.has(content)) {
-                this.editors.set(content, new Editor({
-                    extensions: [StarterKit],
-                    content: content,
-                    editable: false
-                }));
+                this.editors.set(content, new Editor(getEditorConfig(content, false)));
             }
             return this.editors.get(content);
         },

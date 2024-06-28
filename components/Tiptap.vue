@@ -94,6 +94,7 @@
     </template>
       
     <script>
+    import getEditorConfig from '@/utils/editorConfig';
     import SvgIcon from '@jamescoyle/vue-icon';
     import { 
         mdiFormatBold,
@@ -176,22 +177,7 @@
         },
     
         mounted() {
-            this.editor = new Editor({
-            extensions: [
-                StarterKit,
-                TextAlign.configure({
-                types: ['heading', 'paragraph', 'orderedList', 'bulletList', 'codeBlock', 'blockquote'],
-                }),
-                Underline,
-                Subscript,
-                Superscript,
-                TextStyle,
-                FontFamily,
-                Image,
-                Color,
-            ],
-            content: ``,
-            })
+            this.editor = new Editor(getEditorConfig('', true));
         },
         
         beforeUnmount() {
