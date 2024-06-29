@@ -7,8 +7,8 @@
             <TabPanels>
                 <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" >
                     <ul>
-                        <li v-for="(post, index) in tab.posts" :key="index">
-                            <EditorContent :editor="getOrCreateEditor(post)" />
+                        <li v-for="(post, index) in tab.posts" :key="index" class="list-none">
+                            <EditorContent  :editor="getOrCreateEditor(post)" />
                         </li>
                     </ul>
                     <button @click="openTiptap(tab.value)">Добавить запись</button>
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { mapState } from 'pinia';
 import getEditorConfig from '@/utils/editorConfig';
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
@@ -106,4 +105,6 @@ export default {
 
 
 <style scoped>
+
+
 </style>
