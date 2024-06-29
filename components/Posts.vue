@@ -1,18 +1,31 @@
 <template>
     <div class="card">
         <Tabs v-model:active="activeTab">
-            <TabList>
-                <Tab v-for="tab in tabs" :key="tab.value" :value="tab.value">{{ tab.title }}</Tab>
+            <TabList class = "text-lg text-violet-950" >
+                <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">{{ tab.title }}</Tab>
             </TabList>
             <TabPanels>
                 <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" >
                     <ul>
                         <li v-for="(post, index) in tab.posts" :key="index" class="list-none">
-                            <EditorContent  :editor="getOrCreateEditor(post)" />
+                            <EditorContent class="post" :editor="getOrCreateEditor(post)" />
                         </li>
                     </ul>
-                    <button @click="openTiptap(tab.value)">Добавить запись</button>
-                    <Tiptap v-if="showTiptap && activeTab === tab.value" :channel="tab.title" @add-post="addPost" />
+                    <Accordion value="0" collapseIcon="null" expandIcon="null">
+                        <AccordionPanel>
+                            <AccordionContent>
+                                <div>
+                                    <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                    Создать новую запись
+                                </div>
+                                <Tiptap :channel="tab.title" @add-post="addPost" />
+                            </AccordionContent>
+                            <AccordionHeader>
+                                <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                Hello
+                            </AccordionHeader>
+                        </AccordionPanel>
+                    </Accordion>
                 </TabPanel>
             </TabPanels>
         </Tabs>
@@ -20,15 +33,24 @@
 </template>
 
 <script>
-import getEditorConfig from '@/utils/editorConfig';
+import { mdiViewAgenda } from '@mdi/js';
+import SvgIcon from '@jamescoyle/vue-icon';
+
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
 import Tab from 'primevue/tab';
 import TabPanels from 'primevue/tabpanels';
 import TabPanel from 'primevue/tabpanel';
+
+import Accordion from 'primevue/accordion';
+import AccordionPanel from 'primevue/accordionpanel';
+import AccordionHeader from 'primevue/accordionheader';
+import AccordionContent from 'primevue/accordioncontent';
+
+import getEditorConfig from '@/utils/editorConfig';
 import Tiptap from '~/components/Tiptap.vue'
 import { Editor, EditorContent } from '@tiptap/vue-3'
-import StarterKit from '@tiptap/starter-kit'
+
 import { usePersonalStore } from '~/stores/personal'
 import { useTeamStore } from '~/stores/team'
 import { usePublicStore } from '~/stores/public'
@@ -41,11 +63,18 @@ export default {
         TabPanels,
         TabPanel,
         Tiptap,
-        EditorContent
+        EditorContent,
+        Accordion,
+        AccordionHeader,
+        AccordionContent,
+        AccordionPanel,
+        SvgIcon,
     },
     data() {
         return {
+            buttonCreatePostText: 'Как дела по проекту?',
             activeTab: '0',
+            mdiViewAgenda: mdiViewAgenda,
             showTiptap: false,
             editors: new Map(),
             tabs: [
@@ -65,14 +94,10 @@ export default {
         publicStore() {
             return usePublicStore()
         },
-        activeTabChannel() {
-            return this.tabs.find(tab => tab.value === this.activeTab)?.title;
-        }
     },
     methods: {
         openTiptap(tabValue) {
             this.showTiptap = true;
-            this.activeTab = tabValue;
         },
         addPost({ post, channel }) {
             this.showTiptap = false;
@@ -96,15 +121,27 @@ export default {
             }
             return this.editors.get(content);
         },
+        handleClickCreatePost(tabValue) {
+            this.buttonCreatePostText = 'Создать новую запись';
+            this.openTiptap(tabValue);
+        },
     },
     created() {
         this.updateTabs();
     }
 }
+
+//<Tiptap v-if="showTiptap && activeTab === tab.value" :channel="tab.title" @add-post="addPost" />
+//<button @click="handleClickCreatePost(tab.value)">{{ buttonCreatePostText }}</button>
 </script>
 
 
-<style scoped>
+<style>
+    .post .tiptap { @apply border-violet-800 }
 
-
+    .tab { @apply w-32 transition-all delay-75 duration-100 hover:opacity-85; }
+    
+    .active-tab { @apply w-32 font-bold; }
+    
+    
 </style>

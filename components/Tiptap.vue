@@ -1,6 +1,5 @@
 <template>
     <div v-if="editor">
-        <div>Создать новую запись</div>
         <div class="flex justify-center space-x-2 p-1">
             <button class="btn" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                 <svg-icon type="mdi" :path="mdiFormatBold"></svg-icon>
@@ -211,7 +210,7 @@
     }
     </script>
     
-    <style scopped>
+    <style>
     .btn {
         @apply hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
     }
