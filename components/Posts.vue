@@ -1,9 +1,13 @@
 <template>
-    <div class="card">
-        <Tabs v-model:active="activeTab">
-            <TabList class = "text-lg text-violet-950" >
-                <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">{{ tab.title }}</Tab>
-                <div class="">
+    <div class="w-3/4 ml-auto p-5">
+        <Tabs class="w-full" v-model:active="activeTab">
+            <div class="flex items-center justify-between w-full">
+                <TabList class = "text-lg text-violet-950" >
+                    <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">
+                        {{ tab.title }}
+                    </Tab>
+                </TabList>
+                <div class="flex items-center gap-1 border border-l-2 border-gray-300 rounded-lg px-2 py-1">
                     <Button> 
                         <svg-icon class="text-violet-800" type="mdi" :path="mdiMagnify"></svg-icon>
                     </Button>
@@ -11,10 +15,11 @@
                         v-model="searchQuery"
                         type="text"
                         placeholder="Что вы хотите найти?"
-                        class="p-inputtext p-component"
+                        class="focus:outline-none focus:ring-0"
                     />
                 </div>
-            </TabList>
+            </div>
+            
             <TabPanels>
                 <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value">
                     <ul>
@@ -26,21 +31,24 @@
                         </li>
                     </ul>
                     <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(activeTab)" @tab-close="onTabClose(activeTab)">
-                        <AccordionPanel>
-                            <AccordionContent>
-                                <div>
-                                    <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                        <AccordionPanel class="border border-violet-800 rounded-lg px-4 py-4">
+                            <AccordionContent >
+                                <div class="flex items-center text-violet-800 font-bold">
+                                    <svg-icon type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     Создать новую запись
 
                                 </div>
                                 <Tiptap :channel="tab.title" @add-post="addPost" :triggerSubmit="submitTrigger" />
                             </AccordionContent>
-                            <AccordionHeader>
-                                <svg-icon v-if="showIcon" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
-                                {{ headerText[activeTab] }}
-                                <button class="btn" @click="triggerSubmit">Записать</button>
-                                от
-
+                            <AccordionHeader class="w-full flex items-center justify-between rounded-lg px-2 py-2">
+                                <div class="flex flex-row gap-1">
+                                    <svg-icon v-if="showIcon" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                    {{ headerText[activeTab] }}
+                                </div>
+                                <div>
+                                    <button class="btn" @click="triggerSubmit">Записать</button>
+                                    от
+                                </div>
                             </AccordionHeader>
                         </AccordionPanel>
                     </Accordion>
@@ -193,7 +201,7 @@ export default {
 <style>
     .post .tiptap { @apply border-violet-800 }
 
-    .tab { @apply w-32 transition-all delay-75 duration-100 hover:opacity-85; }
+    .tab { @apply w-32 transition-all delay-75 duration-100 hover:opacity-85;}
     
     .active-tab { @apply w-32 font-bold; }
     

@@ -9,11 +9,9 @@ export const usePublicStore = defineStore('public', {
       post.id = Date.now();
       this.posts.push(post);
     },
-    removePost(post) {
-      const index = this.posts.indexOf(post);
-      if (index !== -1) {
-        this.posts.splice(index, 1);
-      }
+    removePost(postId) {
+      this.posts = this.posts.filter(post => post.id !== postId);
+      console.log("post-deleted");
     },
   },
 });

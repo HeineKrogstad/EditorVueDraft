@@ -1,6 +1,6 @@
 <template>
     <div v-if="editor">
-        <div class="flex justify-center space-x-2 p-1">
+        <div class="flex  space-x-2 p-1 py-1 border border-gray-300 rounded-lg">
             <button class="btn" @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
                 <svg-icon type="mdi" :path="mdiFormatBold"></svg-icon>
             </button>
@@ -233,7 +233,7 @@
     }
     
     .tiptap {
-        @apply m-8 p-8 border border-gray-300 rounded-lg shadow-sm;
+        @apply mt-8 p-8 border border-gray-300 rounded-lg shadow-sm;
         @apply font-normal text-gray-800;
     }   
         
