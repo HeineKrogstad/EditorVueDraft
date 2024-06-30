@@ -1,0 +1,11 @@
+filterPosts(posts) {
+    if (!this.searchQuery) {
+            return posts;
+        }
+    const query = this.searchQuery.toLowerCase();
+    return posts.filter(post => post.content.toLowerCase().includes(query));
+},
+//<Tiptap v-if="showTiptap && activeTab === tab.value" :channel="tab.title" @add-post="addPost" />
+//<button @click="handleClickCreatePost(tab.value)">{{ buttonCreatePostText }}</button>
+{{ submitTrigger }}
+@click="filterPosts"

@@ -6,10 +6,12 @@ export const usePersonalStore = defineStore('personal', {
   }),
   actions: {
     addPost(post) {
+      post.id = Date.now();
       this.posts.push(post);
     },
-    removePost(index) {
-      this.posts.splice(index, 1);
+    removePost(postId) {
+      this.posts = this.posts.filter(post => post.id !== postId);
+      console.log("post-deleted");
     },
   },
 });

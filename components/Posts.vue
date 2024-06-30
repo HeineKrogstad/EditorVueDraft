@@ -3,28 +3,42 @@
         <Tabs v-model:active="activeTab">
             <TabList class = "text-lg text-violet-950" >
                 <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">{{ tab.title }}</Tab>
+                <div class="">
+                    <Button> 
+                        <svg-icon class="text-violet-800" type="mdi" :path="mdiMagnify"></svg-icon>
+                    </Button>
+                    <InputText
+                        v-model="searchQuery"
+                        type="text"
+                        placeholder="Что вы хотите найти?"
+                        class="p-inputtext p-component"
+                    />
+                </div>
             </TabList>
             <TabPanels>
-                <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" >
+                <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value">
                     <ul>
-                        <li v-for="(post, index) in tab.posts" :key="index" class="list-none">
+                        <li v-for="(post, index) in tab.posts" :key="index" class="list-none" :title="tab.title">
                             <EditorContent class="post" :editor="getOrCreateEditor(post)" />
+                            <Button @click="deletePost({post: post, channel: tab.title})"> 
+                                <svg-icon class="text-violet-800" type="mdi" :path="mdiClose"></svg-icon>
+                            </Button>
                         </li>
                     </ul>
-                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen" @tab-close="onTabClose">
+                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(activeTab)" @tab-close="onTabClose(activeTab)">
                         <AccordionPanel>
                             <AccordionContent>
                                 <div>
                                     <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     Создать новую запись
-                                    <button class="btn" @click="triggerSubmit">Записать</button>
-                                    {{ submitTrigger }}
+
                                 </div>
                                 <Tiptap :channel="tab.title" @add-post="addPost" :triggerSubmit="submitTrigger" />
                             </AccordionContent>
                             <AccordionHeader>
                                 <svg-icon v-if="showIcon" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
-                                {{ headerText }}
+                                {{ headerText[activeTab] }}
+                                <button class="btn" @click="triggerSubmit">Записать</button>
                                 от
 
                             </AccordionHeader>
@@ -38,8 +52,12 @@
 
 <script>
 
-import { mdiViewAgenda } from '@mdi/js';
+import { mdiViewAgenda, mdiMagnify, mdiClose } from '@mdi/js';
 import SvgIcon from '@jamescoyle/vue-icon';
+
+import InputText from 'primevue/inputtext';
+import Button from 'primevue/button';
+import DatePicker from 'primevue/datepicker';
 
 import Tabs from 'primevue/tabs';
 import TabList from 'primevue/tablist';
@@ -75,20 +93,26 @@ export default {
         AccordionContent,
         AccordionPanel,
         SvgIcon,
+        InputText,
+        Button,
     },
     data() {
         return {
             activeTab: '0',
+            searchQuery: '',
             showIcon: true,
             submitTrigger: false,
-            headerText: 'Как дела по проекту?',
+            headerText: ['Как дела по проекту?', 'Как дела по проекту?', 'Как дела по проекту?'],
+            mdiMagnify: mdiMagnify,
             mdiViewAgenda: mdiViewAgenda,
+            mdiClose: mdiClose,
             editors: new Map(),
             tabs: [
                 { title: 'Личный', value: '0', posts: [] },
                 { title: 'Командный', value: '1', posts: [] },
                 { title: 'Публичный', value: '2', posts: [] }
             ]
+            
         }
     },
 
@@ -103,6 +127,7 @@ export default {
             return usePublicStore()
         },
     },
+
     methods: {
         triggerSubmit() {
             this.submitTrigger = !this.submitTrigger;
@@ -118,33 +143,50 @@ export default {
             }
             this.updateTabs();
         },
+
+        deletePost({ post, channel }) {
+            console.log(post);
+            console.log(channel);
+            if (channel === 'Личный') {
+                this.personalStore.removePost(post.id);
+                console.log(post.id);
+            } else if (channel === 'Командный') {
+                this.teamStore.removePost(post.id);
+            } else if (channel === 'Публичный') {
+                this.publicStore.removePost(post.id);
+            }
+            this.updateTabs();
+        },
+
         updateTabs() {
             this.tabs[0].posts = this.personalStore.posts;
             this.tabs[1].posts = this.teamStore.posts;
             this.tabs[2].posts = this.publicStore.posts;
         },
+
         getOrCreateEditor(content) {
             if (!this.editors.has(content)) {
                 this.editors.set(content, new Editor(getEditorConfig(content, false)));
             }
             return this.editors.get(content);
         },
-        onTabOpen() {
-            this.headerText = '';
+
+        onTabOpen(activeTab) {
+            this.headerText[activeTab] = '';
             this.showIcon = false;
         },
-        onTabClose() {
+
+        onTabClose(activeTab) {
             this.showIcon = true;
-            this.headerText = 'Как дела по проекту?';    
+            this.headerText[activeTab] = 'Как дела по проекту?';  
         },      
     },
+
     created() {
         this.updateTabs();
     }
 }
 
-//<Tiptap v-if="showTiptap && activeTab === tab.value" :channel="tab.title" @add-post="addPost" />
-//<button @click="handleClickCreatePost(tab.value)">{{ buttonCreatePostText }}</button>
 </script>
 
 

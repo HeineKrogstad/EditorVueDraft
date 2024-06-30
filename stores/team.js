@@ -6,10 +6,14 @@ export const useTeamStore = defineStore('team', {
   }),
   actions: {
     addPost(post) {
+      post.id = Date.now();
       this.posts.push(post);
     },
-    removePost(index) {
-      this.posts.splice(index, 1);
+    removePost(post) {
+      const index = this.posts.indexOf(post);
+      if (index !== -1) {
+        this.posts.splice(index, 1);
+      }
     },
   },
 });
