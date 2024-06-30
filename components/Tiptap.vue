@@ -132,9 +132,14 @@
         },
 
         props: {
-        channel: {
-            type: String,
-            required: true,
+            channel: {
+                type: String,
+                required: true,
+                },
+            
+            triggerSubmit: {
+                type: Boolean,
+                required: false,
             },
         },
     
@@ -174,6 +179,14 @@
             this.editor.destroy()
         },
 
+        watch: {
+            triggerSubmit(newValue) {
+                if (newValue) {
+                    this.submitPost();
+                }
+            },
+        },
+
         methods: {
             addImage() {
                 const input = document.createElement('input');
@@ -203,8 +216,8 @@
             },
 
             submitPost() {
-            const json = this.editor.getJSON();
-            this.$emit('add-post', { post: json, channel: this.channel });
+                const json = this.editor.getJSON();
+                this.$emit('add-post', { post: json, channel: this.channel });
             },
         },
     }

@@ -11,18 +11,22 @@
                             <EditorContent class="post" :editor="getOrCreateEditor(post)" />
                         </li>
                     </ul>
-                    <Accordion value="0" collapseIcon="null" expandIcon="null">
+                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen" @tab-close="onTabClose">
                         <AccordionPanel>
                             <AccordionContent>
                                 <div>
                                     <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     Создать новую запись
+                                    <button class="btn" @click="triggerSubmit">Записать</button>
+                                    {{ submitTrigger }}
                                 </div>
-                                <Tiptap :channel="tab.title" @add-post="addPost" />
+                                <Tiptap :channel="tab.title" @add-post="addPost" :triggerSubmit="submitTrigger" />
                             </AccordionContent>
                             <AccordionHeader>
-                                <svg-icon class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
-                                Hello
+                                <svg-icon v-if="showIcon" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                {{ headerText }}
+                                от
+
                             </AccordionHeader>
                         </AccordionPanel>
                     </Accordion>
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+
 import { mdiViewAgenda } from '@mdi/js';
 import SvgIcon from '@jamescoyle/vue-icon';
 
@@ -56,6 +61,7 @@ import { useTeamStore } from '~/stores/team'
 import { usePublicStore } from '~/stores/public'
 
 export default {
+
     components: {
         Tabs,
         TabList,
@@ -72,10 +78,11 @@ export default {
     },
     data() {
         return {
-            buttonCreatePostText: 'Как дела по проекту?',
             activeTab: '0',
+            showIcon: true,
+            submitTrigger: false,
+            headerText: 'Как дела по проекту?',
             mdiViewAgenda: mdiViewAgenda,
-            showTiptap: false,
             editors: new Map(),
             tabs: [
                 { title: 'Личный', value: '0', posts: [] },
@@ -84,6 +91,7 @@ export default {
             ]
         }
     },
+
     computed: {
         personalStore() {
             return usePersonalStore()
@@ -96,11 +104,11 @@ export default {
         },
     },
     methods: {
-        openTiptap(tabValue) {
-            this.showTiptap = true;
+        triggerSubmit() {
+            this.submitTrigger = !this.submitTrigger;
         },
+
         addPost({ post, channel }) {
-            this.showTiptap = false;
             if (channel === 'Личный') {
                 this.personalStore.addPost(post);
             } else if (channel === 'Командный') {
@@ -121,10 +129,14 @@ export default {
             }
             return this.editors.get(content);
         },
-        handleClickCreatePost(tabValue) {
-            this.buttonCreatePostText = 'Создать новую запись';
-            this.openTiptap(tabValue);
+        onTabOpen() {
+            this.headerText = '';
+            this.showIcon = false;
         },
+        onTabClose() {
+            this.showIcon = true;
+            this.headerText = 'Как дела по проекту?';    
+        },      
     },
     created() {
         this.updateTabs();
