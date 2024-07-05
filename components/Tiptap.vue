@@ -55,28 +55,21 @@
             <button class="btn" @click="addImage">
                 <svg-icon type="mdi" :path="mdiPaperclip"></svg-icon>
             </button>
-            <Menu>
-            <MenuButton class="btn">
+
                 <svg-icon type="mdi" :path="mdiFormatAlignJustify"></svg-icon>            
-            </MenuButton>
-                <MenuItems>
-                    <MenuItem v-slot="{ active }">
+
                         <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
                             <svg-icon type="mdi" :path="mdiFormatAlignLeft"></svg-icon>
                         </button>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }">
+
                         <button class="btn" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
                             <svg-icon type="mdi" :path="mdiFormatAlignCenter"></svg-icon>
                         </button>
-                    </MenuItem>
-                    <MenuItem v-slot="{ active }">
+
                         <button class="btn" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
                             <svg-icon type="mdi" :path="mdiFormatAlignRight"></svg-icon>
                         </button>
-                    </MenuItem>
-                </MenuItems>
-            </Menu>
+
             <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
                 Sans Serif
             </button>
@@ -91,7 +84,7 @@
     </div>
     </template>
       
-    <script>
+<script>
     import getEditorConfig from '@/utils/editorConfig';
     import SvgIcon from '@jamescoyle/vue-icon';
     import { 
@@ -117,19 +110,16 @@
         mdiFormatTextVariantOutline,
         mdiFormatColorFill,
     } from '@mdi/js';
-    import { Editor, EditorContent } from '@tiptap/vue-3'
-    import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-    
+    import { Editor, EditorContent } from '@tiptap/vue-3';
+    import SpeedDial from 'primevue/speeddial';
+
     export default {
         components: {
             EditorContent,
-            MenuButton,
-            Menu,
-            MenuItems,
-            MenuItem,
             SvgIcon,
+            SpeedDial,
         },
-    
+
         data() {
             return {
             editor: null,
@@ -157,7 +147,7 @@
             mdiFormatColorFill: mdiFormatColorFill,
             };
         },
-    
+
         mounted() {
             this.editor = new Editor(getEditorConfig('', true));
         },
@@ -203,26 +193,26 @@
             },
         },
     }
-    </script>
-    
-    <style>
+</script>
+
+<style>
     .btn {
         @apply hover:bg-neutral-200 text-violet-800 font-mono py-1 px-2 rounded-lg transition-colors duration-300;
     }
-    
+
     .btn.is-active {
         @apply bg-violet-800 text-white;
     }
-    
+
     .tiptap {
         @apply mt-8 p-8 border border-gray-300 rounded-lg shadow-sm;
         @apply font-normal text-gray-800;
     }   
         
     h1, h2 { @apply mt-3.5 mb-1.5; }
-    
+
     h1 { @apply text-2xl }
-    
+
     h2 { @apply text-xl }
 
     blockquote { @apply border-l-2 border-gray-300 my-6 pl-4 }
@@ -239,4 +229,4 @@
     .hidden-color-input { @apply invisible }
 
     .hidden-color-input:focus { @apply visible }
-    </style>
+</style>
