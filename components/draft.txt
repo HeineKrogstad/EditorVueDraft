@@ -11,3 +11,58 @@ filterPosts(posts) {
 @click="filterPosts"
 
  @add-post="addPost" :triggerSubmit="submitTrigger"
+
+
+
+
+
+
+
+ {
+    "type": "doc",
+    "content": [
+        {
+            "type": "heading",
+            "attrs": {
+                "textAlign": "left",
+                "level": 1
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "textStyle",
+                            "fontFamily": null,
+                            "color": "#5b21b6"
+                        }
+                    ],
+                    "text": "06.07.24"
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "textAlign": "left"
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "textStyle",
+                            "attrs": {
+                                "fontFamily": null,
+                                "color": "#1ac75c"
+                            }
+                        }
+                    ],
+                    "text": "asdadasdasda"
+                }
+            ]
+        }
+    ],
+    "timestamp": "06.07.24",
+    "id": 1720218059741
+}

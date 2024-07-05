@@ -139,7 +139,32 @@ export default {
         triggerSubmit(tab) {
             const tiptapComponent = this.$refs.tiptapComponent[tab.value];
             const post = tiptapComponent.editor.getJSON();
-            //this.addPost({ post: json, channel: tab.title })
+            const date = this.formatDate(tab.date)
+        
+            const dateParagraph = {
+                type: 'heading',
+                attrs: {
+                    textAlign: 'left',
+                    level: 2
+                },
+                content: [
+                    {
+                        type: 'text',
+                        marks: [ { 
+                            type: "textStyle",
+                            attrs: {
+                                fontFamily: null,
+                                color: '#5b21b6',
+                            },
+                        }],
+                        text: date
+                    }
+                ]
+            };
+
+            post.content.unshift(dateParagraph);
+            post.timestamp = date;
+
             if (tab.title === 'Личный') {
                 this.personalStore.addPost(post);
             } else if (tab.title === 'Командный') {
@@ -147,7 +172,7 @@ export default {
             } else if (tab.title === 'Публичный') {
                 this.publicStore.addPost(post);
             }
-
+            //console.log(post);
             this.updateTabs();
             this.submitTrigger = !this.submitTrigger;
         },
@@ -163,6 +188,12 @@ export default {
             } else if (channel === 'Публичный') {
                 this.publicStore.removePost(post.id);
             }
+
+            if (this.editors.has(post)) {
+                this.editors.get(post).destroy();
+                this.editors.delete(post);
+            }
+
             this.updateTabs();
         },
 
@@ -187,7 +218,14 @@ export default {
         onTabClose(tab) {
             tab.headerText= 'Как дела по проекту?';  
             tab.tiptapOpenned = false;
-        },      
+        },
+        
+        formatDate(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = String(date.getFullYear()).slice(-2);
+            return `${day}.${month}.${year}`;
+        }
     },
 
     created() {
