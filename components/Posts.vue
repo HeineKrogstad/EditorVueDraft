@@ -30,25 +30,25 @@
                             </Button>
                         </li>
                     </ul>
-                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(activeTab)" @tab-close="onTabClose(activeTab)">
-                        <AccordionPanel :class="{'border-gray-300 pt-4': !tiptapOpenned[activeTab], 'border-violet-800 ': tiptapOpenned[activeTab]}" class="border rounded-lg px-4">
+                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(tab)" @tab-close="onTabClose(tab)">
+                        <AccordionPanel :class="{'border-gray-300 pt-4': tab.tiptapOpenned, 'border-violet-800 ': !tab.tiptapOpenned}" class="border rounded-lg px-4">
                             <AccordionContent>
                                 <div class="flex items-center text-violet-800 font-bold pb-6 gap-2">
                                     <svg-icon type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     Создать новую запись
 
                                 </div>
-                                <Tiptap :channel="tab.title" @add-post="addPost" :triggerSubmit="submitTrigger" />
+                                <Tiptap ref="tiptapComponent"/>
                             </AccordionContent>
                             <AccordionHeader class="w-full flex items-center justify-between rounded-lg px-2 py-4">
                                 <div class="flex flex-row gap-1" >
-                                    <svg-icon v-if="tiptapOpenned[activeTab]" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
-                                    {{ headerText[activeTab] }}
+                                    <svg-icon v-if="!tab.tiptapOpenned" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                    {{ tab.headerText }}
                                 </div>
                                 <div class="flex gap-4 order-last" @click.stop>
-                                    <button class="btn-add" @click="triggerSubmit">Записать</button>
+                                    <button class="btn-add" @click="triggerSubmit(tab)">Записать</button>
                                     от
-                                    <DatePicker class="border border-violet-800 rounded-lg px-2" iconDisplay="button" v-model="date" dateFormat="dd/mm/yy" showIcon="true" inputClass="date-picker" panelClass="date-picker-overlay"/>
+                                    <DatePicker class="border border-violet-800 rounded-lg px-2" iconDisplay="button" v-model="tab.date" dateFormat="dd/mm/yy" inputClass="date-picker" panelClass="date-picker-overlay"/>
                                 </div>
                             </AccordionHeader>
                         </AccordionPanel>
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-
 import { mdiViewAgenda, mdiMagnify, mdiClose } from '@mdi/js';
 import SvgIcon from '@jamescoyle/vue-icon';
 
@@ -109,20 +108,16 @@ export default {
     data() {
         return {
             activeTab: '0',
-            date: new Date(),
             searchQuery: '',
-            
-            tiptapOpenned: [true, true, true],
             submitTrigger: false,
-            headerText: ['Как дела по проекту?', 'Как дела по проекту?', 'Как дела по проекту?'],
             mdiMagnify: mdiMagnify,
             mdiViewAgenda: mdiViewAgenda,
             mdiClose: mdiClose,
             editors: new Map(),
             tabs: [
-                { title: 'Личный', value: '0', posts: [] },
-                { title: 'Командный', value: '1', posts: [] },
-                { title: 'Публичный', value: '2', posts: [] }
+                { title: 'Личный', value: '0', posts: [], date: new Date(), tiptapOpenned: false, headerText: 'Как дела по проекту?'},
+                { title: 'Командный', value: '1', posts: [], date: new Date(), tiptapOpenned: false, headerText: 'Как дела по проекту?'},
+                { title: 'Публичный', value: '2', posts: [], date: new Date(), tiptapOpenned: false, headerText: 'Как дела по проекту?'}
             ]
             
         }
@@ -138,23 +133,23 @@ export default {
         publicStore() {
             return usePublicStore()
         },
-
     },
 
     methods: {
-        triggerSubmit() {
-            this.submitTrigger = !this.submitTrigger;
-        },
-
-        addPost({ post, channel }) {
-            if (channel === 'Личный') {
+        triggerSubmit(tab) {
+            const tiptapComponent = this.$refs.tiptapComponent[tab.value];
+            const post = tiptapComponent.editor.getJSON();
+            //this.addPost({ post: json, channel: tab.title })
+            if (tab.title === 'Личный') {
                 this.personalStore.addPost(post);
-            } else if (channel === 'Командный') {
+            } else if (tab.title === 'Командный') {
                 this.teamStore.addPost(post);
-            } else if (channel === 'Публичный') {
+            } else if (tab.title === 'Публичный') {
                 this.publicStore.addPost(post);
             }
+
             this.updateTabs();
+            this.submitTrigger = !this.submitTrigger;
         },
 
         deletePost({ post, channel }) {
@@ -184,14 +179,14 @@ export default {
             return this.editors.get(content);
         },
 
-        onTabOpen(activeTab) {
-            this.headerText[activeTab] = '';
-            this.tiptapOpenned[activeTab] = false;
+        onTabOpen(tab) {
+            tab.headerText = '';
+            tab.tiptapOpenned = true;
         },
 
-        onTabClose(activeTab) {
-            this.tiptapOpenned[activeTab] = true;
-            this.headerText[activeTab] = 'Как дела по проекту?';  
+        onTabClose(tab) {
+            tab.headerText= 'Как дела по проекту?';  
+            tab.tiptapOpenned = false;
         },      
     },
 

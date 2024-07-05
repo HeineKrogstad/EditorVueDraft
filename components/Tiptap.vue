@@ -86,7 +86,6 @@
             <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
                 Comic Sans
             </button>
-            <button class="btn" @click="submitPost">Submit</button>
         </div>
         <editor-content :editor="editor"/>
     </div>
@@ -129,18 +128,6 @@
             MenuItems,
             MenuItem,
             SvgIcon,
-        },
-
-        props: {
-            channel: {
-                type: String,
-                required: true,
-                },
-            
-            triggerSubmit: {
-                type: Boolean,
-                required: false,
-            },
         },
     
         data() {
@@ -213,11 +200,6 @@
             updateColor(event) {
                 const color = event.target.value;
                 this.editor.chain().focus().setColor(color).run();
-            },
-
-            submitPost() {
-                const json = this.editor.getJSON();
-                this.$emit('add-post', { post: json, channel: this.channel });
             },
         },
     }

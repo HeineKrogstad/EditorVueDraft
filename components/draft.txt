@@ -9,3 +9,5 @@ filterPosts(posts) {
 //<button @click="handleClickCreatePost(tab.value)">{{ buttonCreatePostText }}</button>
 {{ submitTrigger }}
 @click="filterPosts"
+
+ @add-post="addPost" :triggerSubmit="submitTrigger"
