@@ -66,17 +66,14 @@
                 <svg-icon type="mdi" :path="mdiPaperclip"></svg-icon>
             </button>
             
-            <div class="flex justify-center">
-                <Select v-model="selectedFont" :options="fontOptions" optionLabel="label" placeholder="Sans-Serif" :highlightOnSelect="false" @change="changeFont" class="w-full md:w-56"/>
-            </div>
 
-            <button @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
+            <button class="btn" @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
                 Sans Serif
             </button>
-            <button @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
+            <button class="btn" @click="editor.chain().focus().setFontFamily('monospace').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'monospace' }) }">
                 Monospace
             </button>
-            <button @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
+            <button class="btn" @click="editor.chain().focus().setFontFamily('Comic Sans MS, Comic Sans').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'Comic Sans MS, Comic Sans' }) }">
                 Comic Sans
             </button>
         </div>
@@ -131,12 +128,6 @@
                 editor: null,
                 items: [],
                 newPost: '',
-                selectedFont: null,
-                fontOptions: [
-                    { label: 'Sans Serif', value: 'serif' },
-                    { label: 'Monospace', value: 'monospace' },
-                    { label: 'Comic Sans', value: 'Comic Sans MS, Comic Sans' }
-                ],
 
                 mdiFormatBold: mdiFormatBold,
                 mdiFormatItalic: mdiFormatItalic,
@@ -201,7 +192,7 @@
                 return mdiFormatAlignRight;
             }
             return mdiFormatAlignJustify;
-            }
+            },
         },
         
         beforeUnmount() {
@@ -235,14 +226,7 @@
                 const color = event.target.value;
                 this.editor.chain().focus().setColor(color).run();
             },
-
-            toggleDropdown() {
-                this.isOpen = !this.isOpen;
-            },
-
-            changeFont() {
-                this.editor.chain().focus().setFontFamily(this.selectedFont).run();
-            }
+            
         },
     }
 </script>

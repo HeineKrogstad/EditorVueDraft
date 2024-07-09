@@ -1,6 +1,6 @@
 <template>
-    <div class="w-3/4 ml-auto p-5">
-        <Tabs class="w-full" v-model:active="activeTab">
+    <div class="w-3/4 h-svh ml-auto p-5 ">
+        <Tabs class="flex flex-col w-full h-full" v-model:active="activeTab">
             <div class="flex items-center justify-between w-full">
                 <TabList class="text-lg text-violet-950" >
                     <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">
@@ -19,24 +19,22 @@
                     />
                 </div>
             </div>
-            
-            <TabPanels>
-                <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value">
-                    <ul>
-                        <li v-for="(post, index) in tab.posts" :key="index" class="list-none" :title="tab.title">
+            <TabPanels class="grow">
+                <TabPanel v-for="tab in tabs" :key="tab.value" :value="tab.value" class="flex flex-col h-full">
+                    <ul class="grow">
+                        <li v-for="(post, index) in tab.posts" :key="index" class="relative list-none pt-0" :title="tab.title">
                             <EditorContent class="post" :editor="getOrCreateEditor(post)" />
-                            <Button @click="deletePost({post: post, channel: tab.title})"> 
-                                <svg-icon class="text-violet-800" type="mdi" :path="mdiClose"></svg-icon>
+                            <Button class="absolute top-12 right-6" @click="deletePost({post: post, channel: tab.title})"> 
+                                <svg-icon class="text-violet-400 border-2 rounded-lg border-violet-300" type="mdi" :path="mdiClose"></svg-icon>
                             </Button>
                         </li>
                     </ul>
-                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(tab)" @tab-close="onTabClose(tab)">
+                    <Accordion value="0" collapseIcon="null" expandIcon="null" @tab-open="onTabOpen(tab)" @tab-close="onTabClose(tab)" class="flex-none mt-8">
                         <AccordionPanel :class="{'border-gray-300 pt-4': tab.tiptapOpenned, 'border-violet-800 ': !tab.tiptapOpenned}" class="border rounded-lg px-4">
                             <AccordionContent>
                                 <div class="flex items-center text-violet-800 font-bold pb-6 gap-2">
                                     <svg-icon type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     Создать новую запись
-
                                 </div>
                                 <Tiptap ref="tiptapComponent"/>
                             </AccordionContent>
