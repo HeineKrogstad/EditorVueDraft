@@ -83,7 +83,7 @@ filterPosts(posts) {
             </button>
 
 
-                        <SplitButton class="btn menu-overlay" :model="items" raised="true"> 
+                        <SplitButton class="btn menu-overlay" :model="items"> 
                 <template #dropdownicon>
                     <svg-icon type="mdi" :path="currentIcon" />
                 </template>

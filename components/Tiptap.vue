@@ -46,7 +46,7 @@
             <button class="btn" @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
                 <svg-icon type="mdi" :path="mdiFormatSuperscript"></svg-icon>
             </button>
-            <SplitButton class="btn menu-overlay" :model="items" raised="true"> 
+            <SplitButton class="btn menu-overlay" :model="items"> 
                 <template #dropdownicon>
                     <svg-icon type="mdi" :path="currentIcon" />
                 </template>
@@ -112,14 +112,12 @@
     } from '@mdi/js';
     import { Editor, EditorContent } from '@tiptap/vue-3';
     import SplitButton from 'primevue/splitbutton';
-    import Select from 'primevue/select';
 
     export default {
         components: {
             EditorContent,
             SvgIcon,
             SplitButton,
-            Select,
         },
 
         data() {
@@ -154,7 +152,9 @@
         },
 
         mounted() {
-            this.editor = new Editor(getEditorConfig('', true));
+            const nuxtApp = useNuxtApp();
+            const tiptapExtensions = nuxtApp.$tiptapExtensions || [];
+            this.editor = new Editor(getEditorConfig('', true, tiptapExtensions));
             this.items = [
             {
                 icon: mdiFormatAlignLeft,
