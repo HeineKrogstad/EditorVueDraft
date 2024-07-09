@@ -66,3 +66,30 @@ filterPosts(posts) {
     "timestamp": "06.07.24",
     "id": 1720218059741
 }
+
+
+
+
+            <button class="btn" @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
+                <svg-icon type="mdi" :path="mdiFormatAlignLeft"></svg-icon>
+            </button>
+
+            <button class="btn" @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
+                <svg-icon type="mdi" :path="mdiFormatAlignCenter"></svg-icon>
+            </button>
+
+            <button class="btn" @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
+                <svg-icon type="mdi" :path="mdiFormatAlignRight"></svg-icon>
+            </button>
+
+
+                        <SplitButton class="btn menu-overlay" :model="items" raised="true"> 
+                <template #dropdownicon>
+                    <svg-icon type="mdi" :path="currentIcon" />
+                </template>
+                <template #item="slotProps">
+                    <div class="btn mt-0.5" @click="slotProps.item.command">
+                        <svg-icon type="mdi" :path="slotProps.item.icon"/>
+                    </div>
+                </template>
+            </SplitButton>

@@ -41,8 +41,8 @@
                                 <Tiptap ref="tiptapComponent"/>
                             </AccordionContent>
                             <AccordionHeader class="w-full flex items-center justify-between rounded-lg px-2 py-4">
-                                <div class="flex flex-row gap-1" >
-                                    <svg-icon v-if="!tab.tiptapOpenned" class="text-violet-800" type="mdi" :path="mdiViewAgenda"></svg-icon>
+                                <div class="flex flex-row gap-1 text-violet-800" >
+                                    <svg-icon v-if="!tab.tiptapOpenned" type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     {{ tab.headerText }}
                                 </div>
                                 <div class="flex gap-4 order-last" @click.stop>
