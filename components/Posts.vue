@@ -1,6 +1,6 @@
 <template>
     <div class="w-3/4 h-svh ml-auto p-5 ">
-        <Tabs class="flex flex-col w-full h-full" v-model:active="activeTab">
+        <Tabs class="flex flex-col w-full h-full" v-model:active="activeTab" value="0">
             <div class="flex items-center justify-between w-full">
                 <TabList class="text-lg text-violet-950" >
                     <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">
