@@ -78,9 +78,6 @@
             </button>
         </div>
         <editor-content :editor="editor"/>
-
-
-
     </div>
     </template>
       
@@ -225,8 +222,7 @@
             updateColor(event) {
                 const color = event.target.value;
                 this.editor.chain().focus().setColor(color).run();
-            },
-            
+            },  
         },
     }
 </script>
