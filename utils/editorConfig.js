@@ -6,6 +6,10 @@ import Underline from '@tiptap/extension-underline';
 import Superscript from '@tiptap/extension-superscript';
 import Subscript from '@tiptap/extension-subscript';
 import StarterKit from '@tiptap/starter-kit';
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 
 export default function getEditorConfig(content = '', editable = true, tiptapExtensions = []) {
@@ -22,7 +26,13 @@ export default function getEditorConfig(content = '', editable = true, tiptapExt
       FontFamily,
       Image,
       Color,
-      ...tiptapExtensions,
+Table.configure({
+          resizable: true,
+        }),
+        TableRow,
+        TableHeader,
+        TableCell,
+      //...tiptapExtensions,
     ],
     content: content,
     editable: editable,

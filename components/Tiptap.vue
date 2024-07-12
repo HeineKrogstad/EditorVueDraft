@@ -65,8 +65,15 @@
             <button class="btn" @click="addImage">
                 <svg-icon type="mdi" :path="mdiPaperclip"></svg-icon>
             </button>
-            
-
+            <button class="btn" @click="editor.chain().focus().insertTable({ rows: 1, cols: 2, withHeaderRow: false }).run()">
+                <svg-icon type="mdi" :path="mdiImageText"></svg-icon>
+            </button>
+            <button class="btn" @click="editor.chain().focus().insertTable({ rows: 1, cols: 3, withHeaderRow: false }).run()">
+                <svg-icon type="mdi" :path="mdiImageMultipleOutline"></svg-icon>
+            </button>
+            <button class="btn" @click="editor.chain().focus().deleteTable().run()">
+                Удалить блок
+            </button>
             <button class="btn" @click="editor.chain().focus().setFontFamily('serif').run()" :class="{ 'is-active': editor.isActive('textStyle', { fontFamily: 'serif' }) }">
                 Sans Serif
             </button>
@@ -106,6 +113,8 @@
         mdiPaperclip,
         mdiFormatTextVariantOutline,
         mdiFormatColorFill,
+        mdiImageText,
+        mdiImageMultipleOutline,
     } from '@mdi/js';
     import { Editor, EditorContent } from '@tiptap/vue-3';
     import SplitButton from 'primevue/splitbutton';
@@ -124,6 +133,8 @@
                 items: [],
                 newPost: '',
 
+                mdiImageMultipleOutline: mdiImageMultipleOutline,
+                mdiImageText: mdiImageText,
                 mdiFormatBold: mdiFormatBold,
                 mdiFormatItalic: mdiFormatItalic,
                 mdiFormatUnderline: mdiFormatUnderline,
@@ -214,7 +225,7 @@
                 };
                 input.click();
             },
-            
+                    
             openColorPicker() {
                 this.$refs.colorPicker.click();
             },
@@ -277,6 +288,7 @@
     }
 
 
+
     .hidden-color-input { @apply invisible }
 
     .hidden-color-input:focus { @apply visible }
@@ -287,4 +299,29 @@
         ul { @apply list-none  }
         span { @apply hidden }
     }
+
+    table {
+        @apply border-collapse m-0 overflow-hidden table-fixed w-full;
+    
+        td, th {
+            @apply px-2 py-3 box-border min-w-[1em] relative align-top;
+        }
+
+        td:not(:first-child) {
+            @apply border-l border-gray-300;
+        }   
+
+        td > *, th > * {
+            @apply mb-0;
+        }
+
+        .column-resize-handle {
+            @apply bg-violet-800 bottom-[-2px] pointer-events-none absolute right-[-2px] top-0 w-[4px];
+        }
+
+        .tableWrapper {
+            @apply my-6 overflow-x-auto;
+        }
+    }
+    
 </style>
