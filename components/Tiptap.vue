@@ -46,7 +46,7 @@
             <button class="btn" @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
                 <svg-icon type="mdi" :path="mdiFormatSuperscript"></svg-icon>
             </button>
-            <SplitButton unstyled="true" class="btn menu-overlay" :model="items"> 
+            <SplitButton :unstyled="true" class="btn menu-overlay" :model="items"> 
                 <template #dropdownicon>
                     <svg-icon type="mdi" :path="currentIcon" />
                 </template>
@@ -85,7 +85,6 @@
             </button>
         </div>
         <editor-content :editor="editor"/>
-        <FileUpload name="demo[]" url="/api/upload" :multiple="true" :maxFileSize="1000000" :showCancelButton="false" :showUploadButton="false" chooseLabel=" "></FileUpload>
     </div>
     
     </template>
@@ -121,14 +120,12 @@
     } from '@mdi/js';
     import { Editor, EditorContent } from '@tiptap/vue-3';
     import SplitButton from 'primevue/splitbutton';
-    import FileUpload from 'primevue/fileupload';
 
     export default {
         components: {
             EditorContent,
             SvgIcon,
             SplitButton,
-            FileUpload,
         },
 
         data() {

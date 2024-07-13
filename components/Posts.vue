@@ -1,6 +1,6 @@
 <template>
     <div class="w-3/4 h-svh ml-auto p-5 ">
-        <Tabs class="flex flex-col w-full h-full" v-model:active="activeTab" value="0" unstyled="true">
+        <Tabs class="flex flex-col w-full h-full" v-model:active="activeTab" value="0" :unstyled="true">
             <div class="flex items-center justify-between w-full">
                 <TabList class="text-lg text-violet-950" >
                     <Tab  @click="activeTab = tab.value" :class="activeTab === tab.value ? 'active-tab' : 'tab'" v-for="tab in tabs" :key="tab.value" :value="tab.value">
@@ -8,7 +8,7 @@
                     </Tab>
                 </TabList>
                 <div class="flex items-center border border-gray-300 rounded-lg gap-1 p-2">
-                    <Button unstyled="true"> 
+                    <Button :unstyled="true"> 
                         <svg-icon  class="text-violet-800" type="mdi" :path="mdiMagnify"></svg-icon>
                     </Button>
                     <InputText
@@ -25,7 +25,7 @@
                     <ul class="grow">
                         <li v-for="(post, index) in tab.posts" :key="index" class="relative list-none pt-0" :title="tab.title">
                             <EditorContent class="post" :editor="getOrCreateEditor(post)" />
-                            <Button unstyled="true" class="absolute top-12 right-6" @click="deletePost({post: post, channel: tab.title})"> 
+                            <Button :unstyled="true" class="absolute top-12 right-6" @click="deletePost({post: post, channel: tab.title})"> 
                                 <svg-icon class="text-violet-400 border-2 rounded-lg border-violet-300" type="mdi" :path="mdiClose"></svg-icon>
                             </Button>
                         </li>
@@ -38,6 +38,7 @@
                                     Создать новую запись
                                 </div>
                                 <Tiptap ref="tiptapComponent"/>
+                                <FileUpload :pt="{ fileThumbnail: {class:'h-0'} }" name="demo[]" url="/api/upload" :multiple="true" :showCancelButton="false" :showUploadButton="false" chooseLabel=" " chooseIcon="pi pi-paperclip" :previewWidth="0" ></FileUpload>
                             </AccordionContent>
                             <AccordionHeader class="w-full flex items-center justify-between px-2 py-4">
                                 <div class="flex flex-row gap-1 text-violet-800" >
@@ -61,7 +62,9 @@
 <script>
 import { mdiViewAgenda, mdiMagnify, mdiClose } from '@mdi/js';
 import SvgIcon from '@jamescoyle/vue-icon';
+import 'primeicons/primeicons.css'
 
+import FileUpload from 'primevue/fileupload';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import DatePicker from 'primevue/datepicker';
@@ -103,6 +106,7 @@ export default {
         InputText,
         Button,
         DatePicker,
+        FileUpload,
     },
     data() {
         return {
@@ -235,7 +239,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
     .post .tiptap { @apply border-violet-800 }
 
     .tab { @apply w-32 }
@@ -248,5 +252,5 @@ export default {
 
     .tableHeader { @apply flex flex-row }
 
-    
+    .p-fileupload { @apply mt-3 border-none }
 </style>
