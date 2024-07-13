@@ -46,7 +46,7 @@
             <button class="btn" @click="editor.chain().focus().toggleSuperscript().run()" :class="{ 'is-active': editor.isActive('superscript') }">
                 <svg-icon type="mdi" :path="mdiFormatSuperscript"></svg-icon>
             </button>
-            <SplitButton class="btn menu-overlay" :model="items"> 
+            <SplitButton unstyled="true" class="btn menu-overlay" :model="items"> 
                 <template #dropdownicon>
                     <svg-icon type="mdi" :path="currentIcon" />
                 </template>
@@ -63,7 +63,7 @@
                 <svg-icon type="mdi" :path="mdiFormatListNumbered"></svg-icon>
             </button>
             <button class="btn" @click="addImage">
-                <svg-icon type="mdi" :path="mdiPaperclip"></svg-icon>
+                <svg-icon type="mdi" :path="mdiImagePlusOutline"></svg-icon>
             </button>
             <button class="btn" @click="editor.chain().focus().insertTable({ rows: 1, cols: 2, withHeaderRow: false }).run()">
                 <svg-icon type="mdi" :path="mdiImageText"></svg-icon>
@@ -85,7 +85,9 @@
             </button>
         </div>
         <editor-content :editor="editor"/>
+        <FileUpload name="demo[]" url="/api/upload" :multiple="true" :maxFileSize="1000000" :showCancelButton="false" :showUploadButton="false" chooseLabel=" "></FileUpload>
     </div>
+    
     </template>
       
 <script>
@@ -115,15 +117,18 @@
         mdiFormatColorFill,
         mdiImageText,
         mdiImageMultipleOutline,
+        mdiImagePlusOutline,
     } from '@mdi/js';
     import { Editor, EditorContent } from '@tiptap/vue-3';
     import SplitButton from 'primevue/splitbutton';
+    import FileUpload from 'primevue/fileupload';
 
     export default {
         components: {
             EditorContent,
             SvgIcon,
             SplitButton,
+            FileUpload,
         },
 
         data() {
@@ -133,6 +138,7 @@
                 items: [],
                 newPost: '',
 
+                mdiImagePlusOutline: mdiImagePlusOutline,  
                 mdiImageMultipleOutline: mdiImageMultipleOutline,
                 mdiImageText: mdiImageText,
                 mdiFormatBold: mdiFormatBold,
@@ -231,7 +237,9 @@
             updateColor(event) {
                 const color = event.target.value;
                 this.editor.chain().focus().setColor(color).run();
-            },  
+            }, 
+            
+            
         },
     }
 </script>
@@ -285,18 +293,16 @@
         }
     }
 
-
-
-    .hidden-color-input { @apply invisible }
-
-    .hidden-color-input:focus { @apply visible }
-
     .menu-overlay {
         @apply flex items-center;
 
         ul { @apply list-none  }
         span { @apply hidden }
     }
+
+    .hidden-color-input { @apply invisible }
+
+    .hidden-color-input:focus { @apply visible }
 
     table {
         @apply border-collapse m-0 overflow-hidden table-fixed w-full;

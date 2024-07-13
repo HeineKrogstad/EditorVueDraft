@@ -596,3 +596,28 @@ export default defineNuxtPlugin(nuxtApp => {
     //ImageTextBlock2
   ]);
 });
+
+
+
+
+
+tiptap styles
+    .menu-overlay {
+        @apply flex items-center;
+
+        ul { @apply list-none  }
+        span { @apply hidden }
+    }
+
+
+posts.vue styles
+    .date-picker { @apply focus:outline-none focus:ring-0}
+
+    .date-picker-overlay { @apply border rounded-lg px-2 py-4}
+
+
+
+
+    :class="{'border-gray-300 pt-4': tab.tiptapOpenned, 'border-violet-800 ': !tab.tiptapOpenned}" class="border rounded-lg px-4"
+
+    flex-none mt-8
