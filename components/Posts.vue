@@ -38,9 +38,9 @@
                                     Создать новую запись
                                 </div>
                                 <Tiptap ref="tiptapComponent"/>
-                                <FileUpload :pt="{ fileThumbnail: {class:'h-0'} }" name="demo[]" url="/api/upload" :multiple="true" :showCancelButton="false" :showUploadButton="false" chooseLabel=" " chooseIcon="pi pi-paperclip" :previewWidth="0" ></FileUpload>
+                                <FileUpload :pt="{ fileThumbnail: {class:'h-0'}}" name="demo[]" url="/api/upload" :multiple="true" :showCancelButton="false" :showUploadButton="false" chooseLabel=" " chooseIcon="pi pi-paperclip" :previewWidth="0" ></FileUpload>
                             </AccordionContent>
-                            <AccordionHeader class="w-full flex items-center justify-between px-2 py-4">
+                            <AccordionHeader class="w-full flex items-center justify-between px-4 py-4">
                                 <div class="flex flex-row gap-1 text-violet-800" >
                                     <svg-icon v-if="!tab.tiptapOpenned" type="mdi" :path="mdiViewAgenda"></svg-icon>
                                     {{ tab.headerText }}
@@ -48,7 +48,7 @@
                                 <div class="flex items-center gap-4 order-last" @click.stop>
                                     <button class="btn-add" @click="triggerSubmit(tab)">Записать</button>
                                     от
-                                    <DatePicker iconDisplay="button" v-model="tab.date" dateFormat="dd/mm/yy"/>
+                                    <DatePicker panelClass="w-1/4" inputClass="text-center border border-violet-800 py-1" iconDisplay="button" v-model="tab.date" dateFormat="dd/mm/yy"/>
                                 </div>
                             </AccordionHeader>
                         </AccordionPanel>

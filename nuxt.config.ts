@@ -9,6 +9,7 @@ const MyPreset = definePreset(Aura, {
           primary: {
             color: '{violet.800}',
             hoverColor: '{violet.700}',
+            activeColor: '{violet.600}'
         },
       },
     }
@@ -33,7 +34,13 @@ export default defineNuxtConfig({
   primevue: {
     options: {
       theme: {
-          preset: MyPreset,
+        preset: MyPreset,
+        options: {
+          cssLayer: {
+              name: 'primevue',
+              order: 'primevue, tailwind-base, tailwind-utilities'
+          }
+        }
       }
     }
   }
