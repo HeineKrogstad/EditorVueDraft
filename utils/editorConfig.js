@@ -12,7 +12,7 @@ import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import { Color } from '@tiptap/extension-color';
 
-export default function getEditorConfig(content = '', editable = true, tiptapExtensions = []) {
+export default function getEditorConfig(content = '', editable = true) {
   return {
     extensions: [
       StarterKit,

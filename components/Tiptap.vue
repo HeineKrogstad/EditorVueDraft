@@ -160,9 +160,7 @@
         },
 
         mounted() {
-            const nuxtApp = useNuxtApp();
-            const tiptapExtensions = nuxtApp.$tiptapExtensions || [];
-            this.editor = new Editor(getEditorConfig('', true, tiptapExtensions));
+            this.editor = new Editor(getEditorConfig('', true));
             this.items = [
             {
                 icon: mdiFormatAlignLeft,
