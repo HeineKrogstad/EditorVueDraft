@@ -11,7 +11,6 @@ export const usePublicStore = defineStore('public', {
     },
     removePost(postId) {
       this.posts = this.posts.filter(post => post.id !== postId);
-      console.log("post-deleted");
     },
   },
 });

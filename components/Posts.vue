@@ -175,17 +175,13 @@ export default {
             } else if (tab.title === 'Публичный') {
                 this.publicStore.addPost(post);
             }
-            //console.log(post);
             this.updateTabs();
             this.submitTrigger = !this.submitTrigger;
         },
 
         deletePost({ post, channel }) {
-            console.log(post);
-            console.log(channel);
             if (channel === 'Личный') {
                 this.personalStore.removePost(post.id);
-                console.log(post.id);
             } else if (channel === 'Командный') {
                 this.teamStore.removePost(post.id);
             } else if (channel === 'Публичный') {
