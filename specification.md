@@ -13,12 +13,12 @@
 - **Тело**: JSON-массив проектов
 ```json
     [
-    {
-        "id": 1
-    },
-    {
-        "id": 2
-    }
+        {
+            "id": 1
+        },
+        {
+            "id": 2
+        }
     ]
 ```
 
@@ -41,15 +41,15 @@
 - **Ответ**:
   - **Статус**: `201 Created`
   - **Тело**: JSON-объект, представляющий созданный пост
-  ```json
-  {
+```json
+{
     "id": 1,
     "content": {},
     "timestamp": "15.07.24",
     "project": 1,
     "channel": "channel_enum_value"
-  }
-  ```
+}
+```
 
 #### Получить все посты
 **GET** `/posts`
@@ -58,24 +58,24 @@
 - **Ответ**:
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив постов
-  ```json
-  [
+```json
+[
     {
-      "id": 1,
-      "content": {},
-      "timestamp": "15.07.24",
-      "project": 1,
-      "channel": "channel_enum_value"
+        "id": 1,
+        "content": {},
+        "timestamp": "15.07.24",
+        "project": 1,
+        "channel": "channel_enum_value"
     },
     {
-      "id": 2,
-      "content": {},
-      "timestamp": "15.07.24",
-      "project": 2,
-      "channel": "channel_enum_value"
+        "id": 2,
+        "content": {},
+        "timestamp": "15.07.24",
+        "project": 2,
+        "channel": "channel_enum_value"
     }
-  ]
-  ```
+]
+```
 
 #### Получить посты по проекту
 **GET** `/projects/{projectId}/posts`
@@ -86,17 +86,17 @@
 - **Ответ**:
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив постов для указанного проекта
-  ```json
-  [
+```json
+[
     {
-      "id": 1,
-      "content": {},
-      "timestamp": "15.07.24",
-      "project": 1,
-      "channel": "channel_enum_value"
+        "id": 1,
+        "content": {},
+        "timestamp": "15.07.24",
+        "project": 1,
+        "channel": "channel_enum_value"
     }
-  ]
-  ```
+]
+```
 
 #### Удалить пост
 **DELETE** `/posts/{postId}`
@@ -116,24 +116,24 @@
 
 - **Описание**: Создает новое вложение, связанное с постом.
 - **Тело запроса**:
-  ```json
-  {
+```json
+{
     "path": "path/to/file",
     "name": "filename.ext",
     "post": 1  // ID поста
-  }
-  ```
+}
+```
 - **Ответ**:
   - **Статус**: `201 Created`
   - **Тело**: JSON-объект, представляющий созданное вложение
-  ```json
-  {
+```json
+{
     "id": 1,
     "path": "path/to/file",
     "name": "filename.ext",
     "post": 1
-  }
-  ```
+}
+```
 
 #### Получить вложения по посту
 **GET** `/posts/{postId}/attachments`
@@ -144,16 +144,16 @@
 - **Ответ**:
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив вложений для указанного поста
-  ```json
-  [
+```json
+[
     {
-      "id": 1,
-      "path": "path/to/file",
-      "name": "filename.ext",
-      "post": 1
+        "id": 1,
+        "path": "path/to/file",
+        "name": "filename.ext",
+        "post": 1
     }
-  ]
-  ```
+]
+```
 
 ### Узлы (Nodes)
 
@@ -162,11 +162,11 @@
 
 - **Описание**: Создает новую ноду, связанную с постом.
 - **Тело запроса**:
-  ```json
-  {
+```json
+{
     "post": 1  // ID поста
-  }
-  ```
+}
+```
 - **Ответ**:
   - **Статус**: `201 Created`
   - **Тело**: JSON-объект, представляющий созданную ноду
@@ -204,18 +204,18 @@
 - **Ответ**:
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив нод
-  ```json
-  [
+```json
+[
     {
-      "id": 1,
-      "post": 1
+        "id": 1,
+        "post": 1
     },
     {
-      "id": 2,
-      "post": 2
+        "id": 2,
+        "post": 2
     }
-  ]
-  ```
+]
+```
 
 ## Модели данных
 
