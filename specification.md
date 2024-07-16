@@ -14,10 +14,12 @@
 ```json
     [
         {
-            "id": 1
+            "id": 1,
+            "name": "Project 1"
         },
         {
-            "id": 2
+            "id": 2,
+            "name": "Project 2"
         }
     ]
 ```
@@ -35,7 +37,8 @@
       "content": {},
       "timestamp": "15.07.24",
       "project": 1,
-      "channel": "channel_enum_value"  // Значение перечисления, представляющее канал (Личный/Командный/Публичный)
+      "channel": "channel_enum_value",  // Значение перечисления, представляющее канал (Личный/Командный/Публичный)
+      "user": 1
       "attachments": [
         {
           "path": "/path/to/attachment1",
@@ -62,7 +65,8 @@
     "content": {},
     "timestamp": "15.07.24",
     "project": 1,
-    "channel": "channel_enum_value"  // Значение перечисления, представляющее канал (Личный/Командный/Публичный)
+    "channel": "channel_enum_value",  // Значение перечисления, представляющее канал (Личный/Командный/Публичный)
+    "user": 1
     "attachments": [
       {
         "id": 1,
@@ -98,14 +102,16 @@
         "content": {},
         "timestamp": "15.07.24",
         "project": 1,
-        "channel": "channel_enum_value"
+        "channel": "channel_enum_value",
+        "user": 1
     },
     {
         "id": 2,
         "content": {},
         "timestamp": "15.07.24",
         "project": 2,
-        "channel": "channel_enum_value"
+        "channel": "channel_enum_value",
+        "user": 1
     }
 ]
 ```
@@ -126,12 +132,42 @@
         "content": {},
         "timestamp": "15.07.24",
         "project": 1,
-        "channel": "channel_enum_value"
+        "channel": "channel_enum_value",
+        "user": 1
     }
 ]
 ```
 
-#### 2.4 Удалить пост
+#### 2.4 Получить посты по проекту с пагинацией
+**GET** `/projects/{projectId}/posts?limit={limit}&offset={offset}`
+
+- **Описание**: Возвращает список постов для конкретного проекта с поддержкой пагинации.
+- **Параметры**:
+  - `projectId` (integer, обязательный): ID проекта
+  - `limit` (integer, optional): Максимальное количество постов, которое будет возвращено. По умолчанию - 10.
+  - `offset` (integer, optional): Количество пропущенных записей перед началом возврата результатов. По умолчанию - 0.
+- **Ответ**:
+  - **Статус**: `200 OK`
+  - **Тело**: JSON-массив постов для указанного проекта с поддержкой пагинации.
+```json
+{
+  "posts": [
+    {
+      "id": 1,
+      "content": {},
+      "timestamp": "15.07.24",
+      "project": 1,
+      "channel": "Personal",
+      "user": 1
+    }
+  ],
+  "limit": 10,
+  "offset": 0,
+  "total": 1
+}
+```
+
+#### 2.5 Удалить пост
 **DELETE** `/posts/{postId}`
 
 - **Описание**: Удаляет пост по его ID, а также автоматически удаляет все связанные с ним узел и вложения.
@@ -141,7 +177,7 @@
   - **Статус**: `204 No Content`
   - **Тело**: Нет
 
-#### 2.5 Получить посты проекта по каналу
+#### 2.6 Получить посты проекта по каналу
 **GET** `/projects/{projectId}/posts?channel={channel}`
 
 - **Описание**: Возвращает список постов для конкретного проекта, фильтруя их по указанному каналу.
@@ -161,19 +197,21 @@
       "content": {},
       "timestamp": "15.07.24",
       "project": 1,
-      "channel": "Personal"
+      "channel": "Personal",
+      "user": 1
     },
     {
       "id": 2,
       "content": {},
       "timestamp": "15.07.24",
       "project": 1,
-      "channel": "Personal"
+      "channel": "Personal",
+      "user": 1
     }
   ]
   ```
 
-#### 2.6 Получить посты по проекту и каналу с пагинацией
+#### 2.7 Получить посты по проекту и каналу с пагинацией
 **GET** `/projects/{projectId}/posts?channel={channel}&limit={limit}&offset={offset}`
 
 - **Описание**: Возвращает список постов для конкретного проекта и канала с поддержкой пагинации.
@@ -196,14 +234,16 @@
       "content": {},
       "timestamp": "15.07.24",
       "project": 1,
-      "channel": "channel_enum_value"
+      "channel": "channel_enum_value",
+      "user": 1
     },
     {
       "id": 2,
       "content": {},
       "timestamp": "15.07.24",
       "project": 1,
-      "channel": "channel_enum_value"
+      "channel": "channel_enum_value",
+      "user": 1
     }
   ],
   "limit": 10,
@@ -251,11 +291,12 @@
     "content": {},
     "timestamp": "15.07.24",
     "project": 1,
-    "channel": "channel_enum_value"
+    "channel": "channel_enum_value",
+    "user": 1
 }
 ```
 
-#### 4.1 Получить все узлы
+#### 4.2 Получить все узлы
 **GET** `/nodes`
 
 - **Описание**: Возвращает список всех узлов.
@@ -275,40 +316,67 @@
 ]
 ```
 
-## 5. Модели данных
+### 5. Пользователи (Users)
 
-### 5.1 Проект
+#### 5.1 Получить всех пользователей
+**GET** `/users`
+
+- **Описание**: Возвращает список всех пользователей.
+- **Ответ**:
+  - **Статус**: `200 OK`
+  - **Тело**: JSON-массив всех пользователей.
 ```json
 {
-  "id": 1
+  "users": [
+    {
+      "id": 1,
+      "name": "User 1"
+    },
+    {
+      "id": 2,
+      "name": "User 2"
+    }
+  ]
 }
 ```
 
-### 5.2 Пост
-```json
-{
-  "id": 1,
-  "content": {},
-  "timestamp": "15.07.24",
-  "project": 1,
-  "channel": "channel_enum_value"
-}
-```
+### 6. Модели данных
 
-### 5.3 Вложение
-```json
-{
-  "id": 1,
-  "path": "path/to/file",
-  "name": "filename.ext",
-  "post": 1
-}
-```
+#### Проект (Project)
+- **Описание**: Объект проекта.
+- **Поля**:
+  - `id` (integer): ID проекта
+  - `name` (string): Название проекта
 
-### 5.4 Узел
-```json
-{
-  "id": 1,
-  "post": 1
-}
-```
+#### Пользователь (User)
+- **Описание**: Объект пользователя.
+- **Поля**:
+  - `id` (integer): ID пользователя
+  - `name` (string): Имя пользователя
+
+#### Пост (Post)
+- **Описание**: Объект поста.
+- **Поля**:
+  - `id` (integer): ID поста
+  - `content` (JSON): Содержимое поста
+  - `timestamp` (date): Дата создания поста
+  - `project` (integer): ID проекта
+  - `channel` (enum): Канал. Возможные значения:
+    - `Personal` (Личный)
+    - `Team` (Командный)
+    - `Public` (Публичный)
+  - `user` (integer): ID пользователя
+
+#### Вложение (Attachment)
+- **Описание**: Объект вложения.
+- **Поля**:
+  - `id` (integer): ID вложения
+  - `path` (string): Путь к файлу
+  - `name` (string): Имя файла
+  - `post` (integer): ID поста
+
+#### Узел (Node)
+- **Описание**: Объект узла.
+- **Поля**:
+  - `id` (integer): ID узла
+  - `post` (integer): ID поста
