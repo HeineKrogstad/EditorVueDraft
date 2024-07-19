@@ -379,30 +379,30 @@
 #### Проект (Project)
 - **Описание**: Объект проекта.
 - **Поля**:
-- `id_project` (integer): Уникальный идентификатор проекта.
-- `id_category` (integer): Идентификатор категории проекта.
-- `id_parent_project` (integer, nullable): Идентификатор родительского проекта (если есть).
-- `title` (string): Название проекта.
-- `keywords` (string): Ключевые слова, связанные с проектом.
-- `abbreviation` (string): Аббревиатура проекта.
-- `status` (integer): Статус проекта.
-- `desc_full` (string): Полное описание проекта.
-- `desc_short` (string): Краткое описание проекта.
-- `category` (string): Категория проекта.
-- `href_avatar` (string): Ссылка на изображение аватара проекта.
-- `is_favorites` (boolean): Признак, является ли проект избранным.
-- `owner` (boolean): Признак, является ли пользователь владельцем проекта.
-- `name_rev` (string): Имя ревизии проекта.
-- `dt_start` (datetime): Дата начала проекта.
-- `dt_end` (datetime): Дата окончания проекта.
-- `last_changed` (datetime): Дата последнего изменения проекта.
-- `last_changed_author` (string): Автор последнего изменения проекта.
-- `actions` (string): Доступные действия для проекта.
-- `tag` (json): JSON-объект с тегами проекта.
-- `typeparent` (integer, nullable): Тип родительского проекта (если есть).
-- `onyarmarka` (boolean): Признак наличия на ярмарке.
-- `goal` (string): Цель проекта.
-- `params` (json): JSON-объект с параметрами проекта.
+  - `id_project` (integer): Уникальный идентификатор проекта.
+  - `id_category` (integer): Идентификатор категории проекта.
+  - `id_parent_project` (integer, nullable): Идентификатор родительского проекта (если есть).
+  - `title` (string): Название проекта.
+  - `keywords` (string): Ключевые слова, связанные с проектом.
+  - `abbreviation` (string): Аббревиатура проекта.
+  - `status` (integer): Статус проекта.
+  - `desc_full` (string): Полное описание проекта.
+  - `desc_short` (string): Краткое описание проекта.
+  - `category` (string): Категория проекта.
+  - `href_avatar` (string): Ссылка на изображение аватара проекта.
+  - `is_favorites` (boolean): Признак, является ли проект избранным.
+  - `owner` (boolean): Признак, является ли пользователь владельцем проекта.
+  - `name_rev` (string): Имя ревизии проекта.
+  - `dt_start` (datetime): Дата начала проекта.
+  - `dt_end` (datetime): Дата окончания проекта.
+  - `last_changed` (datetime): Дата последнего изменения проекта.
+  - `last_changed_author` (string): Автор последнего изменения проекта.
+  - `actions` (string): Доступные действия для проекта.
+  - `tag` (json): JSON-объект с тегами проекта.
+  - `typeparent` (integer, nullable): Тип родительского проекта (если есть).
+  - `onyarmarka` (boolean): Признак наличия на ярмарке.
+  - `goal` (string): Цель проекта.
+  - `params` (json): JSON-объект с параметрами проекта.
 
 #### Пользователь (User)
 - **Описание**: Объект пользователя.
