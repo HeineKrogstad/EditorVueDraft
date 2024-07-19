@@ -12,22 +12,56 @@
 - **Статус**: `200 OK`
 - **Тело**: JSON-массив проектов
 ```json
-    [
-        {
-            "id": 1,
-            "name": "Project 1"
-        },
-        {
-            "id": 2,
-            "name": "Project 2"
-        }
-    ]
+[
+  {
+    "id_project": 1,
+    "id_category": 1,
+    "id_parent_project": null,
+    "title": "Car",
+    "keywords": "Feil Fall",
+    "abbreviation": "UTF8",
+    "status": 98910,
+    "desc_full": "International",
+    "desc_short": "Lead Markets Specialist",
+    "category": "2",
+    "href_avatar": "https://loremflickr.com/640/480/cats",
+    "is_favorites": false,
+    "owner": true,
+    "name_rev": "88f9b03ed7ee04ec684a61a0fa7adcbf9b3fadb8",
+    "dt_start": "2013-06-10T15:27:39.862",
+    "dt_end": "1994-02-26T03:46:53.657",
+    "last_changed": "2085-09-20T18:16:47.240",
+    "last_changed_author": "2014-09-29T06:44:51.954",
+    "actions": "Cambridgeshire",
+    "tag": {
+        "foo": 1941,
+        "bar": "LE;$]I&z+?",
+        "bike": 70814,
+        "a": "*q6|{AZ]Y&",
+        "b": "=[dbTQ}\"jX",
+        "name": 43481,
+        "prop": "EPMGSfYxS`"
+    },
+    "typeparent": null,
+    "onyarmarka": false,
+    "goal": "Repellat labore labore aut architecto nulla aspernatur necessitatibus. Quasi similique saepe voluptatum accusantium.",
+    "params": {
+        "foo": 22674,
+        "bar": 4360,
+        "bike": 73173,
+        "a": 20336,
+        "b": "W_,O=qWm>B",
+        "name": 87776,
+        "prop": "F\\OC&\"=hLR"
+    }
+  }
+]
 ```
 
-### 2. Посты (Posts)
+### 2. Посты (Drafts)
 
 #### 2.1 Создать пост
-**POST** `/posts`
+**POST** `/draft`
 
 - **Описание**: Создает новый пост. В процессе создания поста автоматически создаются связанные вложения и узел.
 - **Параметры**:
@@ -345,8 +379,30 @@
 #### Проект (Project)
 - **Описание**: Объект проекта.
 - **Поля**:
-  - `id` (integer): ID проекта
-  - `name` (string): Название проекта
+- `id_project` (integer): Уникальный идентификатор проекта.
+- `id_category` (integer): Идентификатор категории проекта.
+- `id_parent_project` (integer, nullable): Идентификатор родительского проекта (если есть).
+- `title` (string): Название проекта.
+- `keywords` (string): Ключевые слова, связанные с проектом.
+- `abbreviation` (string): Аббревиатура проекта.
+- `status` (integer): Статус проекта.
+- `desc_full` (string): Полное описание проекта.
+- `desc_short` (string): Краткое описание проекта.
+- `category` (string): Категория проекта.
+- `href_avatar` (string): Ссылка на изображение аватара проекта.
+- `is_favorites` (boolean): Признак, является ли проект избранным.
+- `owner` (boolean): Признак, является ли пользователь владельцем проекта.
+- `name_rev` (string): Имя ревизии проекта.
+- `dt_start` (datetime): Дата начала проекта.
+- `dt_end` (datetime): Дата окончания проекта.
+- `last_changed` (datetime): Дата последнего изменения проекта.
+- `last_changed_author` (string): Автор последнего изменения проекта.
+- `actions` (string): Доступные действия для проекта.
+- `tag` (json): JSON-объект с тегами проекта.
+- `typeparent` (integer, nullable): Тип родительского проекта (если есть).
+- `onyarmarka` (boolean): Признак наличия на ярмарке.
+- `goal` (string): Цель проекта.
+- `params` (json): JSON-объект с параметрами проекта.
 
 #### Пользователь (User)
 - **Описание**: Объект пользователя.
