@@ -68,14 +68,76 @@
   - **Тело запроса** (JSON):
 ```json
 {
-
+{
+  "attachments": [
+      {
+          "id_attachment": 8,
+          "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+          "id_tp_attachment": 1,
+          "amount": 10
+      },
+      {
+          "id_attachment": 9,
+          "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+          "id_tp_attachment": 2,
+          "amount": 20
+      }
+  ],
+  "draft": {
+      "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+      "id_node": 16,
+      "id_project": 1,
+      "id_user_profile": null,
+      "jcontent": {},
+      "hcontent": "Example content",
+      "rubric": "private",
+      "dt_create": "2024-07-23T19:14:05.3729543+03:00"
+  },
+  "node": {
+      "id_node": 16,
+      "id_tp_node": 2,
+      "name": "Example Node",
+      "dt_create": null
+  }
+}
 }
 ```
 - **Ответ**:
 - **Статус**: `201 Created`
 - **Тело**: JSON-объект, представляющий созданный черновик вместе с вложениями и узлом
 ```json
-
+{
+  "attachments": [
+      {
+          "id_attachment": 8,
+          "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+          "id_tp_attachment": 1,
+          "amount": 10
+      },
+      {
+          "id_attachment": 9,
+          "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+          "id_tp_attachment": 2,
+          "amount": 20
+      }
+  ],
+  "draft": {
+      "id_draft": "5b49c57d-e6b8-4bb8-af4b-944d659abde5",
+      "id_node": 16,
+      "id_project": 1,
+      "id_user_profile": null,
+      "jcontent": {},
+      "hcontent": "Example content",
+      "rubric": "private",
+      "dt_create": "2024-07-23T19:14:05.3729543+03:00"
+  },
+  "node": {
+      "id_node": 16,
+      "id_tp_node": 2,
+      "name": "Example Node",
+      "dt_create": null
+  }
+}
 ```
 
 #### 2.2 Получить все черновики
@@ -206,58 +268,53 @@
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив черновиков для указанного проекта с поддержкой пагинации.
 ```json
-{
-  "drafts": [
-    {
-      "id_draft": "b89d3b5c-ef05-42d1-b169-fe6099098f95",
-      "id_node": 2,
-      "id_project": 2,
-      "id_user_profile": null,
-      "jcontent": [
-          {
-              "type": "heading",
-              "attrs": {
-                  "textAlign": "left",
-                  "level": 2
-              },
-              "content": [
-                  {
-                      "type": "text",
-                      "marks": [
-                          {
-                              "type": "textStyle",
-                              "attrs": {
-                                  "fontFamily": null,
-                                  "color": "#5b21b6"
-                              }
-                          }
-                      ],
-                      "text": "10.07.24"
-                  }
-              ]
-          },
-          {
-              "type": "paragraph",
-              "attrs": {
-                  "textAlign": "left"
-              },
-              "content": [
-                  {
-                      "type": "text",
-                      "text": "Вот что то такое сделал ? Практические примеры и проекты на Go"
-                  }
-              ]
-          }
-      ],
-      "hcontent": "public",
-      "rubric": "public",
-      "dt_create": "2028-02-06T23:59:31.818Z"
-    }
-  ],
-  "limit": 10,
-  "offset": 0,
-  "total": 1
-}
+[
+  {
+    "id_draft": "b89d3b5c-ef05-42d1-b169-fe6099098f95",
+    "id_node": 2,
+    "id_project": 2,
+    "id_user_profile": null,
+    "jcontent": [
+        {
+            "type": "heading",
+            "attrs": {
+                "textAlign": "left",
+                "level": 2
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "marks": [
+                        {
+                            "type": "textStyle",
+                            "attrs": {
+                                "fontFamily": null,
+                                "color": "#5b21b6"
+                            }
+                        }
+                    ],
+                    "text": "10.07.24"
+                }
+            ]
+        },
+        {
+            "type": "paragraph",
+            "attrs": {
+                "textAlign": "left"
+            },
+            "content": [
+                {
+                    "type": "text",
+                    "text": "Вот что то такое сделал ? Практические примеры и проекты на Go"
+                }
+            ]
+        }
+    ],
+    "hcontent": "public",
+    "rubric": "public",
+    "dt_create": "2028-02-06T23:59:31.818Z"
+  }
+],
 ```
 
 #### 2.5 Удалить черновик
@@ -349,58 +406,53 @@
   - **Статус**: `200 OK`
   - **Тело**: JSON-массив черновиков для указанного проекта и рубрики с поддержкой пагинации.
 ```json
-{
-  "drafts": [
-    {
-      "id_draft": "b89d3b5c-ef05-42d1-b169-fe6099098f95",
-      "id_node": 2,
-      "id_project": 2,
-      "id_user_profile": null,
-      "jcontent": [
-        {
-          "type": "heading",
-          "attrs": {
-              "textAlign": "left",
-              "level": 2
-          },
-          "content": [
-              {
-                "type": "text",
-                "marks": [
-                {
-                  "type": "textStyle",
-                  "attrs": {
-                    "fontFamily": null,
-                    "color": "#5b21b6"
-                  }
-                }
-              ],
-              "text": "10.07.24"
-            }
-          ]
+[
+  {
+    "id_draft": "b89d3b5c-ef05-42d1-b169-fe6099098f95",
+    "id_node": 2,
+    "id_project": 2,
+    "id_user_profile": null,
+    "jcontent": [
+      {
+        "type": "heading",
+        "attrs": {
+            "textAlign": "left",
+            "level": 2
         },
-        {
-          "type": "paragraph",
-          "attrs": {
-              "textAlign": "left"
-          },
-          "content": [
+        "content": [
+            {
+              "type": "text",
+              "marks": [
               {
-                  "type": "text",
-                  "text": "Вот что то такое сделал ? Практические примеры и проекты на Go"
+                "type": "textStyle",
+                "attrs": {
+                  "fontFamily": null,
+                  "color": "#5b21b6"
+                }
               }
-          ]
-        }
-      ],
-      "hcontent": "public",
-      "rubric": "public",
-      "dt_create": "2028-02-06T23:59:31.818Z"
-    }
-  ],
-  "limit": 10,
-  "offset": 20,
-  "total": 100
-}
+            ],
+            "text": "10.07.24"
+          }
+        ]
+      },
+      {
+        "type": "paragraph",
+        "attrs": {
+            "textAlign": "left"
+        },
+        "content": [
+            {
+                "type": "text",
+                "text": "Вот что то такое сделал ? Практические примеры и проекты на Go"
+            }
+        ]
+      }
+    ],
+    "hcontent": "public",
+    "rubric": "public",
+    "dt_create": "2028-02-06T23:59:31.818Z"
+  }
+],
 ```
 
 ### 3. Вложения (Attachments)
@@ -609,38 +661,32 @@
   - `is_active` (boolean): Признак активности пользователя.
   - `is_staff` (boolean): Признак, является ли пользователь сотрудником.
   - `skill` (json): JSON-объект с компетенциями пользователя.
-  - `educations` (array): Список объектов образования пользователя.
-  - `members` (array): Список объектов участия пользователя.
-  - `member_in_projects` (array): Список объектов участия пользователя в проектах.
-  - `drafts` (array): Список черновиков пользователя.
-  - `activities` (array): Список активностей пользователя.
-  - `participation_channels` (array): Список рубрик участия пользователя.
 
 #### Черновик (Draft)
 - **Описание**: Объект черновика.
 - **Поля**:
   - `id_draft` (UUID): Уникальный идентификатор черновика.
   - `id_node` (integer): Идентификатор узла, к которому относится черновик.
-  - `id_project` (integer): Идентификатор проекта, к которому относится черновик.
-  - `id_user_profile` (integer, nullable): Идентификатор профиля пользователя, создавшего черновик.
+  - `id_project` (integer): Идентификатор проекта, к которому относится черновик, ссылается на сущность project.
+  - `id_user_profile` (integer, nullable): Идентификатор профиля пользователя, создавшего черновик, ссылается на сущность user_profile.
   - `jcontent` (jsonb): JSON-объект с содержимым черновика.
   - `hcontent` (text): HTML-содержимое черновика.
-  - `rubric` (string): Рубрика черновика.
+  - `rubric` (string): Рубрика черновика, принимает 3 значения: Private, Protected, Public.
   - `dt_create` (timestamp): Дата и время создания черновика.
 
 #### Вложение (Attachment)
 - **Описание**: Объект вложения.
 - **Поля**:
   - `id_attachment` (integer): Уникальный идентификатор вложения.
-  - `draft` (integer): Идентификатор черновика, к которому относится вложение.
-  - `tp_attachment` (integer): Идентификатор типа вложения.
+  - `draft` (UUID): Идентификатор черновика, к которому относится вложение.
+  - `tp_attachment` (integer): Идентификатор типа вложения, ссылается на сущность tp_attachment.
   - `amount` (integer, nullable): Количество вложений, значение по умолчанию `0`.
 
 #### Узел (Node)
 - **Описание**: Объект узла.
 - **Поля**:
   - `id_node` (integer): Уникальный идентификатор узла.
-  - `id_tp_node` (integer): Идентификатор типа узла. Не может быть NULL.
-  - `id_parent_node` (integer, nullable): Идентификатор родительского узла. Может быть NULL.
-  - `name` (string): Название узла. Не может быть NULL. Максимальная длина - 255 символов.
-  - `dt_create` (timestamp, nullable): Дата и время создания узла. Может быть NULL.
+  - `id_tp_node` (integer): Идентификатор типа узла, ссылается на сущность tp_node.
+  - `id_parent_node` (integer, nullable): Идентификатор родительского узла.
+  - `name` (string): Название узла.
+  - `dt_create` (timestamp, nullable): Дата и время создания узла.
