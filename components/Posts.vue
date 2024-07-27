@@ -197,6 +197,7 @@ export default {
         },
 
         updateTabs() {
+            this.personalStore.fetchPosts();
             this.tabs[0].posts = this.personalStore.posts;
             this.tabs[1].posts = this.teamStore.posts;
             this.tabs[2].posts = this.publicStore.posts;

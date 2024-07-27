@@ -18,6 +18,9 @@ const MyPreset = definePreset(Aura, {
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  devServer: {
+    port: 8000
+  },
   css: [
     '~/assets/css/main.css',
   ],
@@ -27,10 +30,16 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
   modules: [
     '@pinia/nuxt',
     '@primevue/nuxt-module',
   ],
+
+  routeRules: {
+    '/api/**': { proxy: 'http://localhost:3000/**' }
+  },
+
   primevue: {
     options: {
       theme: {
